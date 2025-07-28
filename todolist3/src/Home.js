@@ -7,8 +7,7 @@ export function Home() {
         <h1 style={{ fontWeight: "bolder" }}>WellCome!</h1>
       </div>
       <div className="nav">
-        <button>게시판</button>
-        <Link to="/lists">등록</Link>
+        <Link to="/lists">글쓰기</Link>
       </div>
       <div className="outer">
         <br />
