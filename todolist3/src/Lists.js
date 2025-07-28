@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-export function Lists() {
+export function Lists({ lists, setLists }) {
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [contents, setContents] = useState("");
-  const [lists, setLists] = useState([]);
   const [number, setNumber] = useState(1);
 
   function ListsInput() {
-    if (contents.trim() === "") return; // 공백 입력 안됨
+    if (title.trim() === "" || name.trim() === "" || contents.trim() === "")
+      return; // 공백 입력 안됨
 
     const newItem = {
       id: number,
@@ -41,9 +41,7 @@ export function Lists() {
               />
             </td>
           </tr>
-        </tbody>
 
-        <tbody>
           <tr>
             <th>작성자</th>
             <td colSpan={3}>
@@ -54,13 +52,11 @@ export function Lists() {
               />
             </td>
           </tr>
-        </tbody>
 
-        <tbody>
           <tr>
             <th>글내용</th>
             <td colSpan={3}>
-              <input
+              <textarea
                 type="text"
                 value={contents}
                 onChange={(e) => setContents(e.target.value)}
@@ -69,19 +65,8 @@ export function Lists() {
           </tr>
         </tbody>
       </table>
-      <button onClick={ListsInput}>글 등록</button>
-      <ul>
-        {lists.map((list) => (
-          <li key={list.id}>
-            <p>{list.listTitle}</p>
-            <p>{list.userName}</p>
-            <p>{list.listContents}</p>
-            <p>{list.dow}</p>
-          </li>
-        ))}
-      </ul>
       <Link to="/">취소</Link>
-      <button>게시하기</button>
+      <button onClick={ListsInput}>게시하기</button>
     </div>
   );
 }
