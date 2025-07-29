@@ -1,21 +1,28 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Lists } from "./Lists";
 
 export function Home() {
   const [lists, setLists] = useState([]);
 
+  const navigate = useNavigate();
+
+  function GoToLists() {
+    navigate("/lists");
+  }
+
   function ListDelete(listId) {
     let todolist = lists.filter((list) => list.id !== listId);
     setLists(todolist);
   }
+
   return (
     <div>
       <div className="header">
         <h1 style={{ fontWeight: "bolder" }}>WellCome!</h1>
       </div>
       <div className="nav">
-        <Link to="/lists">글쓰기</Link>
+        <button onClick={GoToLists}>글쓰기</button>
       </div>
       <div className="outer">
         <br />
@@ -38,18 +45,21 @@ export function Home() {
                 <td>{list.listTitle}</td>
                 <td>{list.userName}</td>
                 <td>{list.dow}</td>
-                <button
-                  onClick={() => {
-                    ListDelete(list.id);
-                  }}
-                >
-                  삭제
-                </button>
+                <td>
+                  <button
+                    onClick={() => {
+                      ListDelete(list.id);
+                    }}
+                  >
+                    삭제
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <Lists lists={lists} setLists={setLists} />
     </div>
   );
 }

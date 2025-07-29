@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export function Lists({ lists, setLists }) {
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [contents, setContents] = useState("");
   const [number, setNumber] = useState(1);
+
+  const navigate = useNavigate();
+
+  function GotoHome() {
+    navigate("/");
+  }
 
   function ListsInput() {
     if (title.trim() === "" || name.trim() === "" || contents.trim() === "")
@@ -25,6 +31,7 @@ export function Lists({ lists, setLists }) {
     setContents(""); //입력 초기화
     setNumber(number + 1); //number 값 1씩 증가
     console.log(newItem.dow);
+    navigate("/");
   }
 
   return (
@@ -65,8 +72,8 @@ export function Lists({ lists, setLists }) {
           </tr>
         </tbody>
       </table>
-      <Link to="/">취소</Link>
-      <button onClick={ListsInput}>게시하기</button>
+      <button onClick={GotoHome}>취소</button>
+      <button>게시하기</button>
     </div>
   );
 }
