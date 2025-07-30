@@ -22,7 +22,7 @@ export function Lists({ lists, setLists }) {
       listTitle: title,
       listContents: contents,
       userName: name,
-      dow: new Date().toLocaleDateString(),
+      dow: days, //Date of creation(작성일)
     };
 
     setLists((prev) => [...prev, newItem]); // 기존 목록에 추가
