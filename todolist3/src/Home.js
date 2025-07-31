@@ -1,11 +1,25 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Lists } from "./Lists";
+import axios from "axios";
 
 export function Home() {
   const [lists, setLists] = useState([]);
 
   const navigate = useNavigate();
+
+  async function getData() {
+    try {
+      const respones = await axios.get("http://localhost:3000/api/get");
+      console.log(respones);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   function GoToLists() {
     navigate("/lists");

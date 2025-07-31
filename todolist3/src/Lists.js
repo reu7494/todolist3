@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export function Lists({ lists, setLists }) {
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
   const [contents, setContents] = useState("");
-  const [number, setNumber] = useState(1);
 
   const navigate = useNavigate();
 
@@ -13,25 +13,26 @@ export function Lists({ lists, setLists }) {
     navigate("/");
   }
 
-  function ListsInput() {
+  async function ListsInput() {
     if (title.trim() === "" || name.trim() === "" || contents.trim() === "")
       return; // 공백 입력 안됨
 
-    const newItem = {
-      id: number,
-      listTitle: title,
-      listContents: contents,
-      userName: name,
-      dow: days, //Date of creation(작성일)
-    };
+    try {
+      const respones = await axios.post("http://localhost:3000//api/post", {
+        listTitle: title,
+        listContents: contents,
+        userName: name,
+      });
+      console.log(respones);
 
-    setLists((prev) => [...prev, newItem]); // 기존 목록에 추가
-    setTitle("");
-    setName("");
-    setContents(""); //입력 초기화
-    setNumber(number + 1); //number 값 1씩 증가
-    console.log(newItem.dow);
-    navigate("/");
+      setLists((prev) => [...prev, respones]); // 기존 목록에 추가
+      setTitle("");
+      setName("");
+      setContents(""); //입력 초기화
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -73,7 +74,7 @@ export function Lists({ lists, setLists }) {
         </tbody>
       </table>
       <button onClick={GotoHome}>취소</button>
-      <button>게시하기</button>
+      <button onClick={ListsInput}>게시하기</button>
     </div>
   );
 }

@@ -8,7 +8,7 @@ app.post("/api/post", (req, res) => {
   const { title, usename, dow } = req.body;
   const query =
     "INSERT INTO todolist_table (id, title, usename, created_at, dow) VALUES (?,?,?,?,?);";
-  db.query(query, [title, usename, dow], (err, result) => {
+  db.query(query, [title, usename, created_at], (err, result) => {
     if (err) {
       console.error("데이터 삽입 오류:", err);
       res.status(500).send("데이터 삽입 중 오류 발생");
@@ -19,9 +19,13 @@ app.post("/api/post", (req, res) => {
 });
 
 app.get("/api/get", (req, res) => {
-  const query = "SELECT * FROM todolist_table";
+  const { id } = req.query;
 
-  db.query(query, (err, results) => {
+  if (!id) res.status(400).send("id가 없습니다");
+
+  const query = "SELECT * FROM todolist_table WHERE id = ?";
+
+  db.query(query, [id], (err, results) => {
     if (err) {
       console.error("데이터 조회 오류:", err);
       res.status(500).send("데이터 조회 중 오류 발생");
