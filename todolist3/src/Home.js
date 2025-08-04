@@ -10,8 +10,8 @@ export function Home() {
 
   async function getData() {
     try {
-      const respones = await axios.get("http://localhost:3000/api/get");
-      console.log(respones);
+      const respones = await axios.get("http://localhost:4000/api/get");
+      setLists(respones.data);
     } catch (error) {
       console.error(error);
     }
@@ -55,9 +55,9 @@ export function Home() {
             {lists.map((list) => (
               <tr key={list.id}>
                 <td>{list.id}</td>
-                <td>{list.listTitle}</td>
-                <td>{list.userName}</td>
-                <td>{list.dow}</td>
+                <td>{list.title}</td>
+                <td>{list.usename}</td>
+                <td>{list.created_at.substring(0, 10)}</td>
                 <td>
                   <button
                     onClick={() => {

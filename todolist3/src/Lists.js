@@ -18,12 +18,11 @@ export function Lists({ lists, setLists }) {
       return; // 공백 입력 안됨
 
     try {
-      const respones = await axios.post("http://localhost:3000//api/post", {
-        listTitle: title,
-        listContents: contents,
-        userName: name,
+      const respones = await axios.post("http://localhost:4000/api/post", {
+        title: title,
+        usename: name,
+        countent: contents,
       });
-      console.log(respones);
 
       setLists((prev) => [...prev, respones]); // 기존 목록에 추가
       setTitle("");

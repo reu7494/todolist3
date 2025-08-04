@@ -9,8 +9,11 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/lists" element={<Lists />} />
+        <Route path="/" element={<Home lists={lists} setLists={setLists} />} />
+        <Route
+          path="/lists"
+          element={<Lists lists={lists} setLists={setLists} />}
+        />
       </Routes>
     </BrowserRouter>
   );
