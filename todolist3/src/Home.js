@@ -25,9 +25,14 @@ export function Home() {
     navigate("/lists");
   }
 
-  function ListDelete(listId) {
-    let todolist = lists.filter((list) => list.id !== listId);
-    setLists(todolist);
+  async function ListDelete(listId) {
+    try {
+      await axios.delete(`http://localhost:4000/api/delete/${listId}`);
+      let todolist = lists.filter((list) => list.id !== listId);
+      setLists(todolist);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

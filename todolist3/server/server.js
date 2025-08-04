@@ -28,6 +28,13 @@ app.get("/api/get", (req, res) => {
   });
 });
 
+app.delete("/api/delete/:id", (req, res) => {
+  const { id } = req.params;
+  db.query("DELETE FROM list WHERE id=?", [id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.sendStatus(200);
+  });
+});
 // app.get("/api/get/byId/:id", (req, res) => {
 //   const { id } = req.params;
 //   if (!id) {
