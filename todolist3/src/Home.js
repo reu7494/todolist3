@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Lists } from "./Lists";
 import axios from "axios";
 
 export function Home() {
@@ -60,7 +59,9 @@ export function Home() {
             {lists.map((list) => (
               <tr key={list.id}>
                 <td>{list.id}</td>
-                <td>{list.title}</td>
+                <td>
+                  <Link to={`/lists/${list.id}`}>{list.title}</Link>
+                </td>
                 <td>{list.usename}</td>
                 <td>{list.created_at.substring(0, 10)}</td>
                 <td>

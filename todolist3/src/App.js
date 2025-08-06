@@ -3,6 +3,7 @@ import { Home } from "./Home";
 import { Lists } from "./Lists";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { DetailList } from "./DetailList";
 
 export default function App() {
   const [lists, setLists] = useState([]);
@@ -14,6 +15,7 @@ export default function App() {
           path="/lists"
           element={<Lists lists={lists} setLists={setLists} />}
         />
+        <Route path="/lists/:id" element={<DetailList />} />
       </Routes>
     </BrowserRouter>
   );

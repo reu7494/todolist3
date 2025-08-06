@@ -52,24 +52,24 @@ app.delete("/api/delete/:id", (req, res) => {
 //   });
 // });
 
-// app.get("/api/get/byContent/:countent", (req, res) => {
-//   const { id } = req.params;
-//   if (!id) {
-//     return res.status(400).send("countent 찾을 수 없습니다.");
-//   }
+app.get("/api/get/:id", (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).send("content 찾을 수 없습니다.");
+  }
 
-//   const query = "SELECT * FROM list WHERE countent = ?";
-//   db.query(query, [id], (err, results) => {
-//     if (err) {
-//       console.error("데이터 조회 오류:", err);
-//       return res.status(500).send("데이터 조회 중 오류 발생");
-//     } else if (results.length === 0) {
-//       return res.status(404).send("해당 게시글을 찾을 수 없습니다.");
-//     } else {
-//       return res.status(200).json(results[0]);
-//     }
-//   });
-// });
+  const query = "SELECT * FROM list WHERE id = ?";
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error("데이터 조회 오류:", err);
+      return res.status(500).send("데이터 조회 중 오류 발생");
+    } else if (results.length === 0) {
+      return res.status(404).send("해당 게시글을 찾을 수 없습니다.");
+    } else {
+      return res.status(200).json(results[0]);
+    }
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`서버 작동:http://localhost:${PORT}/`);
