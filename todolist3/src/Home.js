@@ -4,6 +4,11 @@ import axios from "axios";
 
 export function Home() {
   const [lists, setLists] = useState([]);
+  const [count, setCount] = useState(0);
+
+  function plusCount() {
+    setCount(count + 1);
+  }
 
   const navigate = useNavigate();
 
@@ -64,6 +69,7 @@ export function Home() {
                 </td>
                 <td>{list.usename}</td>
                 <td>{list.created_at.substring(0, 10)}</td>
+                <td>{count}</td>
                 <td>
                   <button
                     onClick={() => {
