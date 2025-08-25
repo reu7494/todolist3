@@ -9,9 +9,9 @@ app.use(cors());
 app.use(express.json());
 
 app.post("/api/post", (req, res) => {
-  const { title, usename, countent } = req.body;
-  const query = "INSERT INTO list (title, usename, countent) VALUES (?,?,?);";
-  db.query(query, [title, usename, countent], (err, result) => {
+  const { title, usename, content } = req.body;
+  const query = "INSERT INTO list (title, usename, content) VALUES (?,?,?);";
+  db.query(query, [title, usename, content], (err, result) => {
     if (err) {
       console.error("데이터 삽입 오류:", err);
       return res.status(500).send("데이터 삽입 중 오류 발생");

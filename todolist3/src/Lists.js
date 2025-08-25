@@ -21,7 +21,7 @@ export function Lists({ lists, setLists }) {
       const respones = await axios.post("http://localhost:4000/api/post", {
         title: title,
         usename: name,
-        countent: contents,
+        content: contents,
       });
 
       setLists((prev) => [...prev, respones]); // 기존 목록에 추가
