@@ -6,27 +6,31 @@ export function Home() {
   const [lists, setLists] = useState([]);
   const [count, setCount] = useState(0);
 
-  function plusCount() {
-    setCount(count + 1);
-  }
-
   const navigate = useNavigate();
 
-  async function getData() {
-    try {
-      const respones = await axios.get("http://localhost:4000/api/get");
-      setLists(respones.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   useEffect(() => {
+    async function getData() {
+      try {
+        const respones = await axios.get("http://localhost:4000/api/get");
+        setLists(respones.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     getData();
   }, []);
 
   function GoToLists() {
     navigate("/lists");
+  }
+
+  function GoLogin() {
+    navigate("/login");
+  }
+
+  function GoSignup() {
+    navigate("/signup");
   }
 
   async function ListDelete(listId) {
@@ -46,6 +50,8 @@ export function Home() {
       </div>
       <div className="nav">
         <button onClick={GoToLists}>글쓰기</button>
+        <button onClick={GoLogin}>로그인</button>
+        <button onClick={GoSignup}>회원가입</button>
       </div>
       <div className="outer">
         <br />
@@ -54,9 +60,10 @@ export function Home() {
           <tbody>
             <tr>
               <th style={{ width: "10%" }}>번호</th>
-              <th style={{ width: "40%" }}>제목</th>
+              <th style={{ width: "30%" }}>제목</th>
               <th style={{ width: "20%" }}>작성자</th>
               <th style={{ width: "20%" }}>작성일</th>
+              <th style={{ width: "10%" }}>조회수</th>
             </tr>
           </tbody>
 
