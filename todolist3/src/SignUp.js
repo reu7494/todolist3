@@ -42,7 +42,7 @@ export function SignUp() {
       checkUserName: userName,
     };
     const response = await axios.post(
-      "/api/SignUp/checkUserName",
+      "http://localhost:4000/api/SignUp/checkUserName",
       checkUserName
     );
     if (response.data === true) setMessage("사용가능");
@@ -55,6 +55,7 @@ export function SignUp() {
       <input
         type="email"
         value={userEM}
+        placeholder="이메일"
         onChange={(e) => setUserEM(e.target.value)}
       />
 
@@ -62,6 +63,7 @@ export function SignUp() {
       <input
         type="text"
         value={userName}
+        placeholder="유저명"
         onChange={(e) => setUserName(e.target.value)}
       />
       <button onClick={checkButton}>이름 중복 확인</button>
@@ -71,6 +73,7 @@ export function SignUp() {
       <input
         type="password"
         value={userPW}
+        placeholder="비밀번호"
         onChange={(e) => setUserPW(e.target.value)}
       />
       <button onClick={UserSignUp}>회원가입</button>
