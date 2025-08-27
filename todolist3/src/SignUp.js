@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 export function SignUp() {
-  const [userEM, setUserEM] = useState("");
   const [userName, setUserName] = useState("");
   const [userPW, setUserPW] = useState("");
   const [message, setMessage] = useState("");
@@ -18,16 +17,13 @@ export function SignUp() {
   }
 
   async function UserSignUp() {
-    if (userEM.trim() === "" || userName.trim() === "" || userPW.trim() === "")
-      return;
+    if (userName.trim() === "" || userPW.trim() === "") return;
 
     try {
       await axios.post("http://localhost:4000/api/SignUp/post", {
-        userEM: userEM,
         userName: userName,
         userPW: userPW,
       });
-      setUserEM("");
       setUserName("");
       setUserPW("");
       navigate("/");
@@ -51,14 +47,6 @@ export function SignUp() {
 
   return (
     <div>
-      <label>이메일</label>
-      <input
-        type="email"
-        value={userEM}
-        placeholder="이메일"
-        onChange={(e) => setUserEM(e.target.value)}
-      />
-
       <label>유저명</label>
       <input
         type="text"

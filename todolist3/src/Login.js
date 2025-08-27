@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export function Login() {
-  const [userEM, setUserEM] = useState("");
+  const [userName, setUserName] = useState("");
   const [userPW, setUserPW] = useState("");
 
   const navigate = useNavigate();
@@ -17,14 +17,14 @@ export function Login() {
   }
 
   async function UserLogin() {
-    if (userEM.trim() === "" || userPW.trim() === "") return;
+    if (userName.trim() === "" || userPW.trim() === "") return;
 
     try {
       await axios.post("http://localhost:4000/api/Login/post", {
-        userEM: userEM,
+        userName: userName,
         userPW: userPW,
       });
-      setUserEM("");
+      setUserName("");
       setUserPW("");
       navigate("/");
     } catch (error) {
@@ -35,10 +35,10 @@ export function Login() {
     <div>
       <h2>로그인</h2>
       <input
-        type="email"
-        value={userEM}
-        placeholder="이메일"
-        onChange={(e) => setUserEM(e.target.value)}
+        type="text"
+        value={userName}
+        placeholder="유저명"
+        onChange={(e) => setUserName(e.target.value)}
       />
       <input
         type="password"

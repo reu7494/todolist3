@@ -23,15 +23,24 @@ app.post("/api/SignUp/post", (req, res) => {
   });
 });
 
+//회원탈퇴
+app.delete("/api/SignOut/:id", (req, res) => {
+  const { id } = req.params;
+  db.query("DELETE FROM signup WHERE userName=?", [id], (err) => {
+    if (err) return res.status(500).json({ error: err });
+    res.sendStatus(200);
+  });
+});
+
 //로그인
 app.post("/api/Login/post", (req, res) => {
-  const { userEM, userPW } = req.body;
+  const { userName, userPW } = req.body;
 
-  if (!userEM || !userPW) {
-    return res.status(400).send("이메일과 비밀번호가 필요합니다.");
+  if (!userName || !userPW) {
+    return res.status(400).send("유저명과 비밀번호가 필요합니다.");
   }
-  const query = "select * from signup where email = ? AND password = ?";
-  db.query(query, [userEM, userPW], (err, result) => {
+  const query = "select * from signup where userName = ? AND password = ?";
+  db.query(query, [userName, userPW], (err, result) => {
     if (err) {
       console.error("로그인 오류:", err);
       return res.status(500).send("로그인 중 오류 발생");
@@ -41,16 +50,16 @@ app.post("/api/Login/post", (req, res) => {
   });
 });
 
+//로그아웃
+
 //유저명 중복체크
 app.post("/api/SignUp/checkUserName", (req, res) => {
   const checkName = req.body.checkUserName;
   const query = "select userName from signup where userName=(?)";
   db.query(query, [checkName], (err, rows, result) => {
     if (rows[0] === undefined) {
-      console.error("중복 없음");
       res.send(true);
     } else {
-      console.error("중복 있음");
       res.send(false);
     }
   });
@@ -73,6 +82,14 @@ app.post("/api/post", (req, res) => {
 //리스트 가져옴
 app.get("/api/get", (req, res) => {
   db.query("SELECT * FROM list", (err, results) => {
+    if (err) return res.status(500).send("데이터 조회 실패");
+    return res.status(200).json(results);
+  });
+});
+
+//유저 정보 가져옴
+app.get("/api/userName/get", (req, res) => {
+  db.query("SELECT userName FROM signup", (err, results) => {
     if (err) return res.status(500).send("데이터 조회 실패");
     return res.status(200).json(results);
   });

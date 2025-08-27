@@ -1,9 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { SignOut } from "./SignOut";
 import axios from "axios";
 
 export function Home() {
   const [lists, setLists] = useState([]);
+  const [name, setName] = useState("");
   const [count, setCount] = useState(0);
 
   const navigate = useNavigate();
@@ -11,13 +13,23 @@ export function Home() {
   useEffect(() => {
     async function getData() {
       try {
-        const respones = await axios.get("http://localhost:4000/api/get");
-        setLists(respones.data);
+        const response = await axios.get("http://localhost:4000/api/get");
+        setLists(response.data);
       } catch (error) {
         console.error(error);
       }
     }
 
+    async function getUser() {
+      try {
+        const user = await axios.get("http://localhost:4000/api/userName/get");
+        setName(user.data);
+        console.log(user.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getUser();
     getData();
   }, []);
 
@@ -49,9 +61,14 @@ export function Home() {
         <h1 style={{ fontWeight: "bolder" }}>WellCome!</h1>
       </div>
       <div className="nav">
-        <button onClick={GoToLists}>글쓰기</button>
         <button onClick={GoLogin}>로그인</button>
         <button onClick={GoSignup}>회원가입</button>
+        {name ? (
+          <>
+            <button onClick={GoToLists}>글쓰기</button>
+            <SignOut />
+          </>
+        ) : null}
       </div>
       <div className="outer">
         <br />
