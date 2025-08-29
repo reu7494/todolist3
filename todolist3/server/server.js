@@ -26,7 +26,7 @@ app.post("/api/SignUp/post", (req, res) => {
 //회원탈퇴
 app.delete("/api/SignOut/:id", (req, res) => {
   const { id } = req.params;
-  db.query("DELETE FROM signup WHERE userName=?", [id], (err) => {
+  db.query("DELETE FROM signup WHERE id=?", [id], (err) => {
     if (err) return res.status(500).json({ error: err });
     res.sendStatus(200);
   });

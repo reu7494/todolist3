@@ -1,9 +1,9 @@
 import axios from "axios";
 
 export function SignOut() {
-  async function handleDelete(userId) {
+  async function handleDelete(id) {
     try {
-      await axios.delete(`/api/delete/${userId}`);
+      await axios.delete(`/api/SignOut/${id}`);
     } catch (error) {
       console.error("회원탈퇴 오류");
     }

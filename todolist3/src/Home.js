@@ -20,16 +20,6 @@ export function Home() {
       }
     }
 
-    async function getUser() {
-      try {
-        const user = await axios.get("http://localhost:4000/api/userName/get");
-        setName(user.data);
-        console.log(user.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getUser();
     getData();
   }, []);
 
