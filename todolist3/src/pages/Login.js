@@ -1,12 +1,14 @@
 import axios from "axios";
+import { useAuth } from "../auth/useAuth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
-export function Login({ setUser }) {
+export function Login() {
   const [userName, setUserName] = useState("");
   const [userPW, setUserPW] = useState("");
-  const [error, setError] = useState(null);
 
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   function GoSignup() {
@@ -24,23 +26,29 @@ export function Login({ setUser }) {
       const response = await axios.post(
         "http://localhost:4000/api/Login/post",
         {
-          userName: userName,
-          userPW: userPW,
+          userName,
+          userPW,
         }
       );
-      const data = await response.json();
-      if (!response.ok) {
-        setError(data.message || "로그인 실패");
-      } else {
-        const { userName, userPW } = data.user;
-        localStorage.setItem("userName", JSON.stringify(userName));
-        localStorage.setItem("userPW", JSON.stringify(userPW));
-        setUser({ userName, userPW });
-        setUserName("");
-        setUserPW("");
-        navigate("/");
-      }
+
+      const { accessToken, refreshToken } = response.data;
+
+      login(accessToken, refreshToken);
+      Swal.fire({
+        title: "",
+        text: "로그인 성공",
+        icon: "success",
+      });
+
+      setUserName("");
+      setUserPW("");
+      navigate("/");
     } catch (error) {
+      Swal.fire({
+        title: "",
+        text: "로그인 실패",
+        icon: "error",
+      });
       console.error(error);
     }
   }
@@ -59,7 +67,6 @@ export function Login({ setUser }) {
         placeholder="비밀번호"
         onChange={(e) => setUserPW(e.target.value)}
       />
-      {error && <p>{error}</p>}
       <button onClick={UserLogin}>로그인</button>
       <button onClick={GoSignup}>회원가입</button>
       <button onClick={GoBack}>취소</button>

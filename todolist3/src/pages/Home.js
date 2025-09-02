@@ -2,13 +2,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { SignOut } from "./SignOut";
 import axios from "axios";
+import { useAuth } from "../auth/useAuth";
 
 export function Home() {
   const [lists, setLists] = useState([]);
-  const [name, setName] = useState("");
   const [count, setCount] = useState(0);
 
   const navigate = useNavigate();
+  const { auth, logout } = useAuth();
 
   useEffect(() => {
     async function getData() {
@@ -50,16 +51,22 @@ export function Home() {
       <div className="header">
         <h1 style={{ fontWeight: "bolder" }}>WellCome!</h1>
       </div>
+
       <div className="nav">
-        <button onClick={GoLogin}>로그인</button>
-        <button onClick={GoSignup}>회원가입</button>
-        {name ? (
+        {!auth.isAuthenticated ? (
+          <>
+            <button onClick={GoLogin}>로그인</button>
+            <button onClick={GoSignup}>회원가입</button>
+          </>
+        ) : (
           <>
             <button onClick={GoToLists}>글쓰기</button>
+            <button onClick={logout}>로그아웃</button>
             <SignOut />
           </>
-        ) : null}
+        )}
       </div>
+
       <div className="outer">
         <br />
         <h2>일반게시판</h2>
@@ -85,13 +92,7 @@ export function Home() {
                 <td>{list.created_at.substring(0, 10)}</td>
                 <td>{count}</td>
                 <td>
-                  <button
-                    onClick={() => {
-                      ListDelete(list.id);
-                    }}
-                  >
-                    삭제
-                  </button>
+                  <button onClick={() => ListDelete(list.id)}>삭제</button>
                 </td>
               </tr>
             ))}

@@ -58,26 +58,22 @@ export function SignUp() {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/SignUp/post",
-        {
-          userName: userName,
-          userPW: userPW,
-        }
-      );
-      if (!response.ok) {
-        Swal.fire({
-          title: "",
-          text: "회원가입 실패",
-          icon: "error",
-        });
-      } else {
-        Swal.fire({
-          title: "",
-          text: "회원가입 성공!",
-          icon: "success",
-        });
-      }
+      await axios.post("http://localhost:4000/api/SignUp/post", {
+        userName: userName,
+        userPW: userPW,
+      });
+
+      Swal.fire({
+        title: "",
+        text: "회원가입 성공!",
+        icon: "success",
+      });
+
+      Swal.fire({
+        title: "",
+        text: "회원가입 실패",
+        icon: "error",
+      });
       setUserName("");
       setUserPW("");
       navigate("/");
@@ -86,15 +82,12 @@ export function SignUp() {
     }
   }
 
-  async function checkButton(userName) {
-    try {
-      await axios.post(
-        "http://localhost:4000/api/SignUp/checkUserName",
-        userName
-      );
-      setMessage("사용가능");
-    } catch (error) {
-      setMessage("사용 불가능");
+  async function checkButton() {
+    const isDuplicate = await checkButton(userName);
+    if (isDuplicate) {
+      setMessage("이미 사용 중인 유저명입니다.");
+    } else {
+      setMessage("사용 가능한 유저명입니다.");
     }
   }
 
@@ -118,6 +111,14 @@ export function SignUp() {
         placeholder="비밀번호"
         onChange={(e) => setUserPW(e.target.value)}
       />
+      <label>비밀번호 확인</label>
+      <input
+        type="password"
+        value={confirmPassword}
+        placeholder="비밀번호 확인"
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
+
       <button onClick={UserSignUp}>회원가입</button>
       <button onClick={GoLogin}>로그인</button>
       <button onClick={GoBack}>취소</button>
