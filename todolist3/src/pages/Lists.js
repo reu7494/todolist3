@@ -36,6 +36,7 @@ export function Lists({ lists, setLists }) {
 
   return (
     <div>
+      <h2>작성</h2>
       <table className="enroll-table">
         <tbody>
           <tr>
