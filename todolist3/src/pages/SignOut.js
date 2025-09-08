@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export function SignOut() {
+export function SignOut({ userId }) {
   async function handleDelete(id) {
     try {
       await axios.delete(`/api/SignOut/${id}`);
@@ -10,7 +10,7 @@ export function SignOut() {
   }
   return (
     <div>
-      <button onClick={handleDelete}>회원탈퇴</button>
+      <button onClick={() => handleDelete(id)}>회원탈퇴</button>
     </div>
   );
 }

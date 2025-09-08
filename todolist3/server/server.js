@@ -44,8 +44,13 @@ app.post("/api/Login/post", (req, res) => {
     if (err) {
       console.error("로그인 오류:", err);
       return res.status(500).send("로그인 중 오류 발생");
-    } else {
+    }
+    console.log("Db 조회 경과:", result);
+
+    if (result.length > 0) {
       return res.status(201).send("로그인 성공");
+    } else {
+      return res.status(401).send("아이디 또는 비밀번호가 잘못되었습니다.");
     }
   });
 });
@@ -54,7 +59,7 @@ app.post("/api/Login/post", (req, res) => {
 
 //유저명 중복체크
 app.post("/api/SignUp/checkUserName", (req, res) => {
-  const checkName = req.body.checkUserName;
+  const checkName = req.body.userName;
   const query = "select userName from signup where userName=(?)";
   db.query(query, [checkName], (err, rows, result) => {
     if (rows[0] === undefined) {

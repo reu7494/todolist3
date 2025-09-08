@@ -2,14 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { SignOut } from "./SignOut";
 import axios from "axios";
-import { useAuth } from "../auth/useAuth";
 
-export function Home() {
+export function Home({ user, setUser }) {
   const [lists, setLists] = useState([]);
   const [count, setCount] = useState(0);
 
   const navigate = useNavigate();
-  const { auth, logout } = useAuth();
 
   useEffect(() => {
     async function getData() {
@@ -30,6 +28,10 @@ export function Home() {
 
   function GoLogin() {
     navigate("/login");
+  }
+
+  function GoLogout() {
+    navigate("/logout");
   }
 
   function GoSignup() {
@@ -53,7 +55,7 @@ export function Home() {
       </div>
 
       <div className="nav">
-        {!auth.isAuthenticated ? (
+        {!setUser.userName ? (
           <>
             <button onClick={GoLogin}>로그인</button>
             <button onClick={GoSignup}>회원가입</button>
@@ -61,7 +63,7 @@ export function Home() {
         ) : (
           <>
             <button onClick={GoToLists}>글쓰기</button>
-            <button onClick={logout}>로그아웃</button>
+            <button onClick={GoLogout}>로그아웃</button>
             <SignOut />
           </>
         )}

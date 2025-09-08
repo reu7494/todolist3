@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 
 export function SignUp() {
   const [userName, setUserName] = useState("");
   const [userPW, setUserPW] = useState("");
   const [message, setMessage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [user, setUser] = useState({ userName: "", userPW: "" });
 
   const navigate = useNavigate();
 
@@ -50,41 +50,29 @@ export function SignUp() {
       setMessage(validationErrors);
       return;
     }
-    //유저명 중복 체크
-    const isUserNameDuplicate = await checkButton(userName);
-    if (isUserNameDuplicate) {
-      setMessage("이미 사용 중인 유저명입니다.");
-      return;
-    }
 
     try {
       await axios.post("http://localhost:4000/api/SignUp/post", {
         userName: userName,
         userPW: userPW,
       });
-
-      Swal.fire({
-        title: "",
-        text: "회원가입 성공!",
-        icon: "success",
-      });
-
-      Swal.fire({
-        title: "",
-        text: "회원가입 실패",
-        icon: "error",
-      });
+      alert("회원가입 성공");
       setUserName("");
       setUserPW("");
       navigate("/");
+      setUser({ userName, userPW });
     } catch (error) {
+      alert("회원가입 실패");
       setMessage("오류 발생");
     }
   }
 
   async function checkButton() {
-    const isDuplicate = await checkButton(userName);
-    if (isDuplicate) {
+    const respones = await axios.post(
+      "http://localhost:4000/api/SignUp/checkUserName",
+      { userName }
+    );
+    if (respones.data) {
       setMessage("이미 사용 중인 유저명입니다.");
     } else {
       setMessage("사용 가능한 유저명입니다.");
