@@ -14,10 +14,6 @@ export function SignUp() {
   const nameRegEx = /^[a-z][a-z0-9-_]{2,20}$/;
   const passwordRegEx = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/;
 
-  function GoLogin() {
-    navigate("/login");
-  }
-
   function GoBack() {
     navigate("/");
   }
@@ -108,7 +104,6 @@ export function SignUp() {
       />
 
       <button onClick={UserSignUp}>회원가입</button>
-      <button onClick={GoLogin}>로그인</button>
       <button onClick={GoBack}>취소</button>
     </div>
   );

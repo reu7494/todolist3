@@ -31,7 +31,11 @@ export function Home({ user, setUser }) {
   }
 
   function GoLogout() {
-    navigate("/logout");
+    setUser({
+      userName: "",
+      isLoggedIn: false,
+    });
+    navigate("/");
   }
 
   function GoSignup() {
@@ -55,7 +59,7 @@ export function Home({ user, setUser }) {
       </div>
 
       <div className="nav">
-        {!setUser.userName ? (
+        {!user.isLoggedIn ? (
           <>
             <button onClick={GoLogin}>로그인</button>
             <button onClick={GoSignup}>회원가입</button>

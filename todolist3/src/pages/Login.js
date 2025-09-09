@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function Login() {
+export function Login({ setUser }) {
   const [userName, setUserName] = useState("");
   const [userPW, setUserPW] = useState("");
 
@@ -20,14 +20,23 @@ export function Login() {
     if (userName.trim() === "" || userPW.trim() === "") return;
 
     try {
-      await axios.post("http://localhost:4000/api/Login/post", {
-        userName,
-        userPW,
-      });
-      alert("로그인 성공");
-      setUserName("");
-      setUserPW("");
-      navigate("/");
+      const response = await axios.post(
+        "http://localhost:4000/api/Login/post",
+        {
+          userName,
+          userPW,
+        }
+      );
+      if (response.data.success) {
+        setUser({
+          ...response.data.user,
+          isLoggedIn: true,
+        });
+        alert("로그인 성공");
+        setUserName("");
+        setUserPW("");
+        navigate("/");
+      }
     } catch (error) {
       alert("로그인 실패");
       console.error(error);

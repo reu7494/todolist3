@@ -5,18 +5,16 @@ import { Home } from "./pages/Home";
 import { Lists } from "./pages/Lists";
 import { DetailList } from "./pages/DetailList";
 import { Login } from "./pages/Login";
-import { Logout } from "./pages/Logout";
 import { SignUp } from "./pages/SignUp";
 
 export default function App() {
   const [lists, setLists] = useState([]);
-  const [user, setUser] = useState({ userName: "", userPW: "" });
+  const [user, setUser] = useState({ userName: "", isLoggedIn: false });
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home user={user} setUser={setUser} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route
           path="/lists"

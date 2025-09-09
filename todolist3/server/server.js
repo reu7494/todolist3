@@ -48,9 +48,19 @@ app.post("/api/Login/post", (req, res) => {
     console.log("Db 조회 경과:", result);
 
     if (result.length > 0) {
-      return res.status(201).send("로그인 성공");
+      return res.status(200).json({
+        success: true,
+        message: "로그인 성공",
+        user: {
+          userName: result[0].userName,
+          id: result[0].id,
+        },
+      });
     } else {
-      return res.status(401).send("아이디 또는 비밀번호가 잘못되었습니다.");
+      return res.status(401).json({
+        success: false,
+        message: "로그인 실패",
+      });
     }
   });
 });
