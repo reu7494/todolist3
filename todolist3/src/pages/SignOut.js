@@ -5,11 +5,6 @@ export function SignOut({ user, setUser }) {
   const navigate = useNavigate();
   console.log("SignOut에서 받은 user:", user);
   async function handleDelete() {
-    if (!user.id || !user.isLoggedIn) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
     try {
       await axios.delete(`http://localhost:4000/api/SignOut/${user.id}`);
 
