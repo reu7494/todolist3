@@ -65,8 +65,6 @@ app.post("/api/Login/post", (req, res) => {
   });
 });
 
-//로그아웃
-
 //유저명 중복체크
 app.post("/api/SignUp/checkUserName", (req, res) => {
   const checkName = req.body.userName;
