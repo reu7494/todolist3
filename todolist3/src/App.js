@@ -10,17 +10,18 @@ import { SignOut } from "./pages/SignOut";
 
 export default function App() {
   const [lists, setLists] = useState([]);
-  const [user, setUser] = useState({ id: 0, userName: "", isLoggedIn: false });
+  const [user, setUser] = useState({
+    id: null,
+    userName: "",
+    isLoggedIn: false,
+  });
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home user={user} setUser={setUser} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route
-          path="/signout"
-          element={<SignOut user={user} setUser={setUser} />}
-        />
+        <Route path="/signout" element={<SignOut />} />
         <Route
           path="/lists"
           element={<Lists lists={lists} setLists={setLists} />}

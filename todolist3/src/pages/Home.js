@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { SignOut } from "./SignOut";
 import axios from "axios";
+import { SignOut } from "./SignOut";
 
 export function Home({ user, setUser }) {
   const [lists, setLists] = useState([]);
@@ -57,6 +57,7 @@ export function Home({ user, setUser }) {
       <div className="header">
         <h1 style={{ fontWeight: "bolder" }}>WellCome!</h1>
       </div>
+      <p>{user.id}</p>
 
       <div className="nav">
         {!user.isLoggedIn ? (

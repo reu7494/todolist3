@@ -24,9 +24,9 @@ app.post("/api/SignUp/post", (req, res) => {
 });
 
 //회원탈퇴
-app.delete("/api/SignOut/:id", (req, res) => {
-  const { id } = req.params;
-  db.query("DELETE FROM signup WHERE id=?", [id], (err) => {
+app.delete("/api/SignOut/:userName", (req, res) => {
+  const { userName } = req.params;
+  db.query("DELETE FROM signup WHERE userName=?", [userName], (err) => {
     if (err) return res.status(500).json({ error: err });
     res.sendStatus(200);
   });
@@ -52,8 +52,8 @@ app.post("/api/Login/post", (req, res) => {
         success: true,
         message: "로그인 성공",
         user: {
-          userName: result[0].userName,
-          id: result[0].id,
+          userName: userName,
+          password: userPW,
         },
       });
     } else {
@@ -70,7 +70,7 @@ app.post("/api/SignUp/checkUserName", (req, res) => {
   const checkName = req.body.userName;
   const query = "select userName from signup where userName=(?)";
   db.query(query, [checkName], (err, rows, result) => {
-    if (rows[0] === undefined) {
+    if (rows === undefined) {
       res.send(true);
     } else {
       res.send(false);

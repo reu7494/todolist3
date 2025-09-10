@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 export function SignOut({ user, setUser }) {
   const navigate = useNavigate();
-  console.log("SignOut에서 받은 user:", user);
+
   async function handleDelete() {
     try {
-      await axios.delete(`http://localhost:4000/api/SignOut/${user.id}`);
+      await axios.delete(`http://localhost:4000/api/SignOut/${user.userName}`);
 
-      setUser({ id: 0, userName: "", isLoggedIn: false });
+      setUser({ id: null, userName: "", isLoggedIn: false });
 
       alert("회원탈퇴가 완료되었습니다.");
       navigate("/");

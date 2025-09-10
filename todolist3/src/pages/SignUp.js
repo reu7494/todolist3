@@ -23,7 +23,7 @@ export function SignUp() {
     e.preventDefault();
     setMessage(null);
 
-    let validationErrors = {};
+    let validationErrors = [];
 
     // 유저명 형식 체크
     if (!nameRegEx.test(userName)) {
