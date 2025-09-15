@@ -10,10 +10,9 @@ app.use(express.json());
 
 //회원가입
 app.post("/api/SignUp/post", (req, res) => {
-  const { userEM, userName, userPW } = req.body;
-  const query =
-    "INSERT INTO signup (email, userName, password) VALUES (?,?,?);";
-  db.query(query, [userEM, userName, userPW], (err, result) => {
+  const { userName, userPW } = req.body;
+  const query = "INSERT INTO signup (userName, password) VALUES (?,?,?);";
+  db.query(query, [userName, userPW], (err, result) => {
     if (err) {
       console.error("회원가입 오류:", err);
       return res.status(500).send("회원가입 중 오류 발생");
