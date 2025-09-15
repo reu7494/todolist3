@@ -7,7 +7,6 @@ export function SignUp() {
   const [userPW, setUserPW] = useState("");
   const [message, setMessage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [user, setUser] = useState({ userName: "", userPW: "" });
 
   const navigate = useNavigate();
 
@@ -19,20 +18,23 @@ export function SignUp() {
   }
 
   async function UserSignUp(e) {
-    if (userName.trim() === "" || userPW.trim() === "") return;
     e.preventDefault();
     setMessage(null);
+    if (!userName.trim() || !userPW.trim() || !confirmPassword.trim()) {
+      setMessage("모든 필드를 입력해주세요.");
+      return;
+    }
 
     let validationErrors = [];
 
     // 유저명 형식 체크
     if (!nameRegEx.test(userName)) {
-      validationErrors.userName = "유저명 형식을 확인하세요.";
+      setMessage("유저명 형식을 확인하세요.");
     }
 
     // 비밀번호 형식 체크
     if (!passwordRegEx.test(userPW)) {
-      validationErrors.password = "비밀번호 형식을 확인하세요.";
+      setMessage("비밀번호 형식을 확인하세요.");
     }
 
     // 비밀번호 확인 체크
@@ -56,7 +58,6 @@ export function SignUp() {
       setUserName("");
       setUserPW("");
       navigate("/");
-      setUser({ userName, userPW });
     } catch (error) {
       alert("회원가입 실패");
       setMessage("오류 발생");
