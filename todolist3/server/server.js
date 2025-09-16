@@ -67,9 +67,9 @@ app.post("/api/Login/post", (req, res) => {
 //유저명 중복체크
 app.post("/api/SignUp/checkUserName", (req, res) => {
   const checkName = req.body.userName;
-  const query = "select userName from signup where userName=(?)";
+  const query = "select userName from signup where userName=?";
   db.query(query, [checkName], (err, rows, result) => {
-    if (rows === undefined) {
+    if (rows.length > 0) {
       res.send(true);
     } else {
       res.send(false);

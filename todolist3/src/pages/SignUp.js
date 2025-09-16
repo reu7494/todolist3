@@ -19,33 +19,27 @@ export function SignUp() {
 
   async function UserSignUp(e) {
     e.preventDefault();
-    setMessage(null);
+    setMessage("");
     if (!userName.trim() || !userPW.trim() || !confirmPassword.trim()) {
       setMessage("모든 필드를 입력해주세요.");
       return;
     }
 
-    let validationErrors = [];
-
     // 유저명 형식 체크
     if (!nameRegEx.test(userName)) {
       setMessage("유저명 형식을 확인하세요.");
+      return;
     }
 
     // 비밀번호 형식 체크
     if (!passwordRegEx.test(userPW)) {
       setMessage("비밀번호 형식을 확인하세요.");
+      return;
     }
 
     // 비밀번호 확인 체크
     if (userPW !== confirmPassword) {
       setMessage("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    // 오류가 있을 경우 화면에 표시
-    if (Object.keys(validationErrors).length > 0) {
-      setMessage(validationErrors);
       return;
     }
 
@@ -65,11 +59,11 @@ export function SignUp() {
   }
 
   async function checkButton() {
-    const respones = await axios.post(
+    const response = await axios.post(
       "http://localhost:4000/api/SignUp/checkUserName",
       { userName }
     );
-    if (respones.data) {
+    if (response.data) {
       setMessage("이미 사용 중인 유저명입니다.");
     } else {
       setMessage("사용 가능한 유저명입니다.");
@@ -83,7 +77,7 @@ export function SignUp() {
       <input
         type="text"
         value={userName}
-        placeholder="유저명"
+        placeholder="영어 소문자 및 숫자를 조합하시오"
         onChange={(e) => setUserName(e.target.value)}
       />
       <button onClick={checkButton}>이름 중복 확인</button>
@@ -93,7 +87,7 @@ export function SignUp() {
       <input
         type="password"
         value={userPW}
-        placeholder="비밀번호"
+        placeholder="영문 및 숫자를 8자 이상 사용하시오"
         onChange={(e) => setUserPW(e.target.value)}
       />
       <label>비밀번호 확인</label>
