@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export function Login({ setUser }) {
   const [userName, setUserName] = useState("");
-  const [userPW, setUserPW] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
@@ -17,14 +17,14 @@ export function Login({ setUser }) {
   }
 
   async function UserLogin() {
-    if (userName.trim() === "" || userPW.trim() === "") return;
+    if (userName.trim() === "" || password.trim() === "") return;
 
     try {
       const response = await axios.post(
         "http://localhost:4000/api/Login/post",
         {
           userName,
-          userPW,
+          password,
         }
       );
       if (response.data.success) {
@@ -34,7 +34,7 @@ export function Login({ setUser }) {
         });
         alert("로그인 성공");
         setUserName("");
-        setUserPW("");
+        setPassword("");
         navigate("/");
       }
     } catch (error) {
@@ -53,9 +53,9 @@ export function Login({ setUser }) {
       />
       <input
         type="password"
-        value={userPW}
+        value={password}
         placeholder="비밀번호"
-        onChange={(e) => setUserPW(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={UserLogin}>로그인</button>
       <button onClick={GoSignup}>회원가입</button>

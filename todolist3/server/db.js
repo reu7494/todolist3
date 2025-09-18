@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+const mysql = require("mysql2");
 
 // 데이터베이스 연결 설정
 const db = mysql.createConnection({
@@ -8,7 +8,6 @@ const db = mysql.createConnection({
   database: "todolist_table", // 데이터베이스 이름
 });
 
-// 연결 테스트
 db.connect((err) => {
   if (err) {
     console.error("MySQL 연결 실패:", err);

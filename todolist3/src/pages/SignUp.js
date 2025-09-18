@@ -2,9 +2,9 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export function SignUp() {
+export function SignUp({ onDataChange }) {
   const [userName, setUserName] = useState("");
-  const [userPW, setUserPW] = useState("");
+  const [password, setpassword] = useState("");
   const [message, setMessage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -20,7 +20,7 @@ export function SignUp() {
   async function UserSignUp(e) {
     e.preventDefault();
     setMessage("");
-    if (!userName.trim() || !userPW.trim() || !confirmPassword.trim()) {
+    if (!userName.trim() || !password.trim() || !confirmPassword.trim()) {
       setMessage("모든 필드를 입력해주세요.");
       return;
     }
@@ -32,13 +32,13 @@ export function SignUp() {
     }
 
     // 비밀번호 형식 체크
-    if (!passwordRegEx.test(userPW)) {
+    if (!passwordRegEx.test(password)) {
       setMessage("비밀번호 형식을 확인하세요.");
       return;
     }
 
     // 비밀번호 확인 체크
-    if (userPW !== confirmPassword) {
+    if (password !== confirmPassword) {
       setMessage("비밀번호가 일치하지 않습니다.");
       return;
     }
@@ -46,11 +46,12 @@ export function SignUp() {
     try {
       await axios.post("http://localhost:4000/api/SignUp/post", {
         userName: userName,
-        userPW: userPW,
+        password: password,
       });
       alert("회원가입 성공");
       setUserName("");
-      setUserPW("");
+      setpassword("");
+      onDataChange(true);
       navigate("/");
     } catch (error) {
       alert("회원가입 실패");
@@ -86,9 +87,9 @@ export function SignUp() {
       <label>비밀번호</label>
       <input
         type="password"
-        value={userPW}
+        value={password}
         placeholder="영문 및 숫자를 8자 이상 사용하시오"
-        onChange={(e) => setUserPW(e.target.value)}
+        onChange={(e) => setpassword(e.target.value)}
       />
       <label>비밀번호 확인</label>
       <input

@@ -1,11 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { SignOut } from "./SignOut";
+import { SignUp } from "./SignUp";
 
-export function Home({ user, setUser }) {
+export function Home() {
   const [lists, setLists] = useState([]);
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState("");
+  const [user, setUser] = useState({
+    isLoggedIn: false,
+  });
 
   const navigate = useNavigate();
 
@@ -22,24 +25,27 @@ export function Home({ user, setUser }) {
     getData();
   }, []);
 
-  function GoToLists() {
+  function handleTagData(SignUp) {
+    setUser(SignUp);
+  }
+
+  function goToLists() {
     navigate("/lists");
   }
 
-  function GoLogin() {
+  function goLogin() {
     navigate("/login");
   }
 
-  function GoLogout() {
+  function logout() {
     setUser({
       userName: "",
       isLoggedIn: false,
     });
-    navigate("/");
   }
 
-  function GoSignup() {
-    navigate("/signup");
+  function goSignout() {
+    navigate("/signout");
   }
 
   async function ListDelete(listId) {
@@ -62,14 +68,14 @@ export function Home({ user, setUser }) {
       <div className="nav">
         {!user.isLoggedIn ? (
           <>
-            <button onClick={GoLogin}>로그인</button>
-            <button onClick={GoSignup}>회원가입</button>
+            <button onClick={goLogin}>로그인</button>
+            <SignUp onDataChange={handleTagData} />
           </>
         ) : (
           <>
-            <button onClick={GoToLists}>글쓰기</button>
-            <button onClick={GoLogout}>로그아웃</button>
-            <SignOut />
+            <button onClick={goToLists}>글쓰기</button>
+            <button onClick={logout}>로그아웃</button>
+            <button onClick={goSignout}>회원탈퇴</button>
           </>
         )}
       </div>
