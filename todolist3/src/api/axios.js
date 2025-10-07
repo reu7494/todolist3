@@ -1,0 +1,35 @@
+import axios from "axios";
+export default function api() {
+  axios.create({
+    baseURL: "http://localhost:4000/api",
+  });
+  //모든 요청에 자동으로 토큰 추가
+  api.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+  //401 오류 시 자동 로그아웃
+  api.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response?.status === 401) {
+        //토큰 만료 또는 유효하지 않음
+        localStorage.removeItem("token");
+        localStorage.removeItem("userName");
+        alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
+        window.location.href = "/login";
+      }
+      return Promise.reject(error);
+    }
+  );
+}

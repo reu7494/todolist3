@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function Lists({ lists, setLists }) {
+export function Lists({ user, setUser, setLists }) {
   const [title, setTitle] = useState("");
-  const [name, setName] = useState("");
   const [contents, setContents] = useState("");
 
   const navigate = useNavigate();
@@ -14,19 +13,17 @@ export function Lists({ lists, setLists }) {
   }
 
   async function ListsInput() {
-    if (title.trim() === "" || name.trim() === "" || contents.trim() === "")
-      return; // 공백 입력 안됨
+    if (title.trim() === "" || contents.trim() === "") return; // 공백 입력 안됨
 
     try {
       const respones = await axios.post("http://localhost:4000/api/post", {
         title: title,
-        usename: name,
+        usename: user.userName,
         content: contents,
       });
 
       setLists((prev) => [...prev, respones]); // 기존 목록에 추가
       setTitle("");
-      setName("");
       setContents(""); //입력 초기화
       navigate("/");
     } catch (error) {
@@ -49,18 +46,6 @@ export function Lists({ lists, setLists }) {
               />
             </td>
           </tr>
-
-          <tr>
-            <th>작성자</th>
-            <td colSpan={3}>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </td>
-          </tr>
-
           <tr>
             <th>글내용</th>
             <td colSpan={3}>
