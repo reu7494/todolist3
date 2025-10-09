@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 
 export function Lists({ user, setUser, setLists }) {
   const [title, setTitle] = useState("");
@@ -32,34 +33,42 @@ export function Lists({ user, setUser, setLists }) {
   }
 
   return (
-    <div>
-      <h2>작성</h2>
-      <table className="enroll-table">
-        <tbody>
-          <tr>
-            <th>제목</th>
-            <td colSpan={3}>
-              <input
-                type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            </td>
-          </tr>
-          <tr>
-            <th>글내용</th>
-            <td colSpan={3}>
-              <textarea
-                type="text"
-                value={contents}
-                onChange={(e) => setContents(e.target.value)}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button onClick={GotoHome}>취소</button>
-      <button onClick={ListsInput}>게시하기</button>
-    </div>
+    <Box sx={{ maxWidth: 800, margin: "0 auto", padding: 3 }}>
+      <Typography variant="h4" gutterBottom>
+        작성
+      </Typography>
+
+      <Stack spacing={3}>
+        {/* 제목 */}
+        <TextField
+          label="제목"
+          variant="outlined"
+          fullWidth
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
+        {/* 글내용 */}
+        <TextField
+          label="글내용"
+          variant="outlined"
+          fullWidth
+          multiline
+          rows={6}
+          value={contents}
+          onChange={(e) => setContents(e.target.value)}
+        />
+
+        {/* 버튼 */}
+        <Stack direction="row" spacing={2} justifyContent="flex-end">
+          <Button variant="outlined" onClick={GotoHome}>
+            취소
+          </Button>
+          <Button variant="contained" onClick={ListsInput}>
+            게시하기
+          </Button>
+        </Stack>
+      </Stack>
+    </Box>
   );
 }
