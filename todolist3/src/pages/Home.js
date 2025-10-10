@@ -134,6 +134,7 @@ export function Home({ user, setUser, lists, setLists }) {
             </Alert>
           )}
           <h2>일반게시판</h2>
+          <p>{user.userName}</p>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 700 }} aria-label="게시판 테이블">
               <TableHead>

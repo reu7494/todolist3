@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../api/axios";
 import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 
 export function Lists({ user, setUser, setLists }) {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+  const [alert, setAlert] = useState({
+    show: false,
+    message: "",
+    severity: "info",
+  });
 
   const navigate = useNavigate();
 
@@ -17,11 +22,11 @@ export function Lists({ user, setUser, setLists }) {
     if (title.trim() === "" || contents.trim() === "") return; // 공백 입력 안됨
 
     try {
-      const respones = await axios.post("http://localhost:4000/api/post", {
+      const respones = await api.post("http://localhost:4000/api/post", {
         title: title,
         usename: user.userName,
         content: contents,
-      });
+      }); //전달값에 undefined있음
 
       setLists((prev) => [...prev, respones]); // 기존 목록에 추가
       setTitle("");
