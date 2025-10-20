@@ -12,7 +12,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Alert from "@mui/material/Alert";
+import dayjs from "dayjs";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import { ResponsiveAppBar } from ".//ResponsiveAppBar";
+import { Profile } from "./Profile";
 
 // MUI 테이블 스타일링
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -25,6 +28,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
+//새로 useState 만든 후 프로필 설정 클릭 시 유저명 읽어오지를 못함
+//Profile.js:20 Uncaught TypeError: Cannot read properties of undefined (reading 'userName')
+
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
@@ -34,12 +40,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export function Home({ user, setUser, lists, setLists }) {
-  const [alert, setAlert] = useState({
-    show: false,
-    message: "",
-    severity: "info",
-  });
+export function Home({ user, setUser, lists, setLists, click, setClick }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,30 +60,13 @@ export function Home({ user, setUser, lists, setLists }) {
     navigate("/lists");
   }
 
-  function goLogin() {
-    navigate("/login");
-  }
-
-  function logout() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-    setUser({
-      userName: "",
-      isLoggedIn: false,
-    });
-    setAlert({
-      show: true,
-      message: "로그아웃 성공!",
-      severity: "success",
-    });
-  }
-
-  function goSignup() {
-    navigate("/signup");
-  }
-
-  function goSignout() {
-    navigate("/signout");
+  function formatDate(dateString) {
+    if (!dateString) return "날짜 없음";
+    try {
+      return dayjs(dateString).format("YYYY-MM-DD");
+    } catch (error) {
+      return "날짜 오류";
+    }
   }
 
   async function ListDelete(listId) {
@@ -98,86 +82,81 @@ export function Home({ user, setUser, lists, setLists }) {
   return (
     <div>
       <Stack spacing={3} direction="column">
-        <Stack spacing={2} direction="row">
-          {!user.isLoggedIn ? (
-            <>
-              <Button variant="contained" onClick={goLogin}>
-                로그인
-              </Button>
-              <Button variant="outlined" onClick={goSignup}>
-                회원가입
-              </Button>
-            </>
-          ) : (
-            <>
-              <Button variant="contained" onClick={goToLists}>
-                글쓰기
-              </Button>
-              <Button variant="outlined" onClick={logout}>
-                로그아웃
-              </Button>
-              <Button variant="outlined" onClick={goSignout}>
-                회원탈퇴
-              </Button>
-            </>
-          )}
-        </Stack>
-
-        <div className="outer">
-          {alert.show && (
-            <Alert
-              severity={alert.severity}
-              sx={{ mb: 2 }}
-              onClose={() => setAlert({ ...alert, show: false })}
+        <ResponsiveAppBar
+          user={user}
+          setUser={setUser}
+          click={click}
+          setClick={setClick}
+        />
+        {!click ? (
+          <div>
+            <Stack
+              spacing={2}
+              direction="row"
+              sx={{ justifyContent: "flex-end" }}
             >
-              {alert.message}
-            </Alert>
-          )}
-          <h2>일반게시판</h2>
-          <p>{user.userName}</p>
-          <TableContainer component={Paper}>
-            <Table sx={{ minWidth: 700 }} aria-label="게시판 테이블">
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell>제목</StyledTableCell>
-                  <StyledTableCell>작성자</StyledTableCell>
-                  <StyledTableCell>작성일</StyledTableCell>
-                  <StyledTableCell>조회수</StyledTableCell>
-                  <StyledTableCell>관리</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {lists &&
-                  lists.map((list) => (
-                    <StyledTableRow key={list.id}>
-                      <StyledTableCell>
-                        <Link to={`/lists/${list.id}`}>{list.title}</Link>
-                      </StyledTableCell>
-                      <StyledTableCell>{list.usename}</StyledTableCell>
-                      <StyledTableCell>
-                        {list.created_at.substring(0, 10)}
-                      </StyledTableCell>
-                      <StyledTableCell>{list.views || 0}</StyledTableCell>
-                      <StyledTableCell>
-                        {user.userName === list.usename ? (
-                          <Button
-                            variant="contained"
-                            size="small"
-                            color="error"
-                            onClick={() => ListDelete(list.id)}
-                          >
-                            삭제
-                          </Button>
-                        ) : (
-                          ""
-                        )}
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+              {!user.isLoggedIn ? (
+                ""
+              ) : (
+                <>
+                  <Button
+                    variant="contained"
+                    onClick={goToLists}
+                    startIcon={<BorderColorOutlinedIcon />}
+                  >
+                    글쓰기
+                  </Button>
+                </>
+              )}
+            </Stack>
+
+            <div className="outer">
+              <TableContainer component={Paper}>
+                <Table sx={{ minWidth: 700 }} aria-label="게시판 테이블">
+                  <TableHead>
+                    <TableRow>
+                      <StyledTableCell>제목</StyledTableCell>
+                      <StyledTableCell>작성자</StyledTableCell>
+                      <StyledTableCell>작성일</StyledTableCell>
+                      <StyledTableCell>조회수</StyledTableCell>
+                      <StyledTableCell>관리</StyledTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {lists.map((list) => (
+                      <StyledTableRow key={list.id}>
+                        <StyledTableCell>
+                          <Link to={`/lists/${list.id}`}>{list.title}</Link>
+                        </StyledTableCell>
+                        <StyledTableCell>{list.usename}</StyledTableCell>
+                        <StyledTableCell>
+                          {formatDate(list.created_at)}
+                        </StyledTableCell>
+                        <StyledTableCell>{list.views || 0}</StyledTableCell>
+                        <StyledTableCell>
+                          {user.userName === list.usename ? (
+                            <Button
+                              variant="contained"
+                              size="small"
+                              color="error"
+                              onClick={() => ListDelete(list.id)}
+                            >
+                              삭제
+                            </Button>
+                          ) : (
+                            ""
+                          )}
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </div>
+          </div>
+        ) : (
+          <Profile />
+        )}
       </Stack>
     </div>
   );

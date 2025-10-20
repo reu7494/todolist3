@@ -240,10 +240,6 @@ export function Login({ user, setUser }) {
           <Divider>또는</Divider>
 
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
-            <Button fullWidth variant="outlined" onClick={GoSignup}>
-              회원가입
-            </Button>
-
             <Button fullWidth variant="text" onClick={GoBack} sx={{ mt: 1 }}>
               취소
             </Button>

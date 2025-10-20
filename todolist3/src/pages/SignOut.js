@@ -87,9 +87,9 @@ export function SignOut({ user, setUser }) {
       sx={{
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        backgroundColor: "#f5f5f5",
+        alignItems: "top",
+        minHeight: "60vh",
+        backgroundColor: "#ffffff",
         padding: 2,
       }}
     >
@@ -152,6 +152,17 @@ export function SignOut({ user, setUser }) {
             sx={{ mt: 1 }}
           >
             정보 확인
+          </Button>
+
+          {/* 비밀번호 변경 버튼 */}
+          <Button
+            variant="outlined"
+            fullWidth
+            startIcon={<CheckCircle />}
+            onClick={checkButton}
+            sx={{ mt: 1 }}
+          >
+            비밀번호 변경
           </Button>
 
           <Divider sx={{ my: 1 }} />

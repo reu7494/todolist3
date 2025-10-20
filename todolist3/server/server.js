@@ -108,7 +108,7 @@ app.post("/api/Login/post", (req, res) => {
         userName: user.userName,
       },
       SECRET_KEY,
-      { expiresIn: "24h" }
+      { expiresIn: "1h" }
     );
     res.json({
       success: true,
@@ -135,7 +135,7 @@ app.post("/api/SignUp/checkUserName", (req, res) => {
 //회원탈퇴 시 유저 가입정보 확인
 app.post("/api/SignOut/check", verifyToken, (req, res) => {
   const { password } = req.body;
-  const userName = req.user.username;
+  const userName = req.user.userName;
 
   if (!userName || !password) {
     return res.status(400).send("유저명과 비밀번호가 필요합니다.");
@@ -157,10 +157,11 @@ app.post("/api/SignOut/check", verifyToken, (req, res) => {
 
 //리스트 항목 저장
 app.post("/api/post", verifyToken, (req, res) => {
-  const { title, content } = req.body;
-  const usename = req.user.username; // 토큰에서 사용자명 가져오기
-  const query = "INSERT INTO list (title, usename, content) VALUES (?,?,?);";
-  db.execute(query, [title, usename, content], (err, result) => {
+  const { title, content, created_at } = req.body;
+  const usename = req.user.userName; // 토큰에서 사용자명 가져오기
+  const query =
+    "INSERT INTO list (title, usename, content,created_at) VALUES (?,?,?,?);";
+  db.execute(query, [title, usename, content, created_at], (err, result) => {
     if (err) {
       console.error("데이터 삽입 오류:", err);
       return res.status(500).send("데이터 삽입 중 오류 발생");
@@ -189,7 +190,7 @@ app.get("/api/userName/get", (req, res) => {
 //id별 리스트 삭제
 app.delete("/api/delete/:id", verifyToken, (req, res) => {
   const { id } = req.params;
-  const username = req.user.username;
+  const username = req.user.userName;
 
   //게시글 작성자 확인
   db.execute("SELECT usename FROM list WHERE id = ?", [id], (err, results) => {

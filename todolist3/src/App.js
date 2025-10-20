@@ -7,6 +7,7 @@ import { DetailList } from "./pages/DetailList";
 import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
 import { SignOut } from "./pages/SignOut";
+import { Profile } from "./pages/Profile";
 
 export default function App() {
   const [lists, setLists] = useState([]);
@@ -15,6 +16,7 @@ export default function App() {
     userName: "",
     isLoggedIn: false,
   });
+  const [click, setClick] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -43,6 +45,8 @@ export default function App() {
               setUser={setUser}
               lists={lists}
               setLists={setLists}
+              click={click}
+              setClick={setClick}
             />
           }
         />
@@ -67,6 +71,10 @@ export default function App() {
           }
         />
         <Route path="/lists/:id" element={<DetailList />} />
+        <Route
+          path="/profile"
+          element={<Profile user={user} setUser={setUser} />}
+        />
       </Routes>
     </BrowserRouter>
   );
