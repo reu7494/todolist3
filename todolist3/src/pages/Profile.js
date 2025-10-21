@@ -10,6 +10,7 @@ import { identicon } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
 import { SignOut } from "./SignOut";
 import Sheet from "@mui/joy/Sheet";
+import { Stack } from "@mui/material";
 
 //프로필 만들기
 
@@ -35,6 +36,7 @@ export function Profile({ user, setUser }) {
   return (
     <Box sx={{ width: "100%", typography: "body1" }}>
       <TabContext value={value}>
+        <Box sx={{ p: 2, m: 2, fontSize: 24, fontWeight: "bold" }}>설정</Box>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="프로필" value="1" />

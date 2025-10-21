@@ -16,7 +16,7 @@ import { createAvatar } from "@dicebear/core";
 import { identicon } from "@dicebear/collection";
 
 const pages = [""];
-const settings = ["사용자 페이지", "로그아웃", "회원탈퇴"];
+const settings = ["사용자 페이지", "로그아웃"];
 
 export function ResponsiveAppBar({ user, setUser }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -143,9 +143,9 @@ export function ResponsiveAppBar({ user, setUser }) {
                       onClick={() => {
                         handleCloseUserMenu();
                         if (setting === "사용자 페이지") navigate("/profile");
-                        else if (setting === "로그아웃") logout();
-                        else if (setting === "회원탈퇴") {
-                          navigate("/signout");
+                        else if (setting === "로그아웃") {
+                          logout();
+                          navigate("/");
                         }
                       }}
                     >

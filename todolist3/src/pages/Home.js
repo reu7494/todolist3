@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import api from "../api/axios";
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -82,15 +83,18 @@ export function Home({ user, setUser, lists, setLists, click, setClick }) {
     <div>
       <Stack spacing={3} direction="column">
         <div>
-          <Stack
-            spacing={2}
-            direction="row"
-            sx={{ justifyContent: "flex-end" }}
-          >
-            {!user.isLoggedIn ? (
-              ""
-            ) : (
-              <>
+          <div>
+            <Stack
+              direction="row"
+              sx={{
+                p: 2,
+                m: 2,
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Box sx={{ fontSize: 24, fontWeight: "bold" }}>게시판</Box>
+              {user.isLoggedIn && (
                 <Button
                   variant="contained"
                   onClick={goToLists}
@@ -98,10 +102,9 @@ export function Home({ user, setUser, lists, setLists, click, setClick }) {
                 >
                   글쓰기
                 </Button>
-              </>
-            )}
-          </Stack>
-
+              )}
+            </Stack>
+          </div>
           <div className="outer">
             <TableContainer component={Paper}>
               <Table sx={{ minWidth: 700 }} aria-label="게시판 테이블">
