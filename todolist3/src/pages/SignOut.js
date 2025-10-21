@@ -12,6 +12,7 @@ import {
   Divider,
 } from "@mui/material";
 import { Delete, ArrowBack, CheckCircle } from "@mui/icons-material";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
 
 export function SignOut({ user, setUser }) {
   const [userName, setuserName] = useState("");
@@ -158,7 +159,7 @@ export function SignOut({ user, setUser }) {
           <Button
             variant="outlined"
             fullWidth
-            startIcon={<CheckCircle />}
+            startIcon={<SaveAsIcon />}
             onClick={checkButton}
             sx={{ mt: 1 }}
           >

@@ -8,6 +8,7 @@ import { Login } from "./pages/Login";
 import { SignUp } from "./pages/SignUp";
 import { SignOut } from "./pages/SignOut";
 import { Profile } from "./pages/Profile";
+import { ResponsiveAppBar } from "./pages/ResponsiveAppBar";
 
 export default function App() {
   const [lists, setLists] = useState([]);
@@ -16,7 +17,6 @@ export default function App() {
     userName: "",
     isLoggedIn: false,
   });
-  const [click, setClick] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -36,6 +36,7 @@ export default function App() {
   }
   return (
     <BrowserRouter>
+      <ResponsiveAppBar user={user} setUser={setUser} />
       <Routes>
         <Route
           path="/"
@@ -45,8 +46,6 @@ export default function App() {
               setUser={setUser}
               lists={lists}
               setLists={setLists}
-              click={click}
-              setClick={setClick}
             />
           }
         />

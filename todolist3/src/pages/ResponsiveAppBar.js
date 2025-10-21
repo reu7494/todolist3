@@ -11,14 +11,14 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import { createAvatar } from "@dicebear/core";
 import { identicon } from "@dicebear/collection";
 
 const pages = [""];
 const settings = ["사용자 페이지", "로그아웃", "회원탈퇴"];
 
-export function ResponsiveAppBar({ user, setUser, click, setClick }) {
+export function ResponsiveAppBar({ user, setUser }) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [avatar, setAvatar] = useState("");
@@ -48,6 +48,10 @@ export function ResponsiveAppBar({ user, setUser, click, setClick }) {
 
   const navigate = useNavigate();
 
+  function goHome() {
+    navigate("/");
+  }
+
   function goLogin() {
     navigate("/login");
   }
@@ -65,7 +69,17 @@ export function ResponsiveAppBar({ user, setUser, click, setClick }) {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: "flex", mr: 1 }} />
+          <FormatListBulletedIcon
+            sx={{
+              display: "flex",
+              mr: 1,
+              cursor: "pointer",
+              "&:hover": {
+                opacity: 0.7,
+              },
+            }}
+            onClick={goHome}
+          />
           <Typography
             variant="h6"
             noWrap
@@ -128,7 +142,7 @@ export function ResponsiveAppBar({ user, setUser, click, setClick }) {
                       key={setting}
                       onClick={() => {
                         handleCloseUserMenu();
-                        if (setting === "사용자 페이지") setClick(true);
+                        if (setting === "사용자 페이지") navigate("/profile");
                         else if (setting === "로그아웃") logout();
                         else if (setting === "회원탈퇴") {
                           navigate("/signout");
