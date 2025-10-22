@@ -32,7 +32,7 @@ export function SignOut({ user, setUser }) {
     try {
       await axios.delete(`http://localhost:4000/api/SignOut/${userName}`);
 
-      setUser({ id: null, userName: "", isLoggedIn: false });
+      setUser({ userName: "", isLoggedIn: false });
 
       setAlertMessage("회원탈퇴가 완료되었습니다.");
       setAlertType("success");
@@ -153,17 +153,6 @@ export function SignOut({ user, setUser }) {
             sx={{ mt: 1 }}
           >
             정보 확인
-          </Button>
-
-          {/* 비밀번호 변경 버튼 */}
-          <Button
-            variant="outlined"
-            fullWidth
-            startIcon={<SaveAsIcon />}
-            onClick={checkButton}
-            sx={{ mt: 1 }}
-          >
-            비밀번호 변경
           </Button>
 
           <Divider sx={{ my: 1 }} />
