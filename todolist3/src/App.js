@@ -14,6 +14,7 @@ export default function App() {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({
+    id: 0,
     userName: "",
     isLoggedIn: false,
   });
