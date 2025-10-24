@@ -39,16 +39,22 @@ export function Profile({ user, setUser }) {
 
   async function ChangePassword() {
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.patch(
         "http://localhost:4000/api/ChangePassword",
         {
           userName: userProfile,
           oldPassword: oldPassword,
           newPassword: newPassword,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
       if (response.data) {
         setMessage("성공");
+        setOldPassword("");
+        setNewPassword("");
       } else {
         setMessage("실패");
       }
@@ -132,6 +138,7 @@ export function Profile({ user, setUser }) {
             <Button
               variant="outlined"
               startIcon={<SaveAsIcon />}
+              disabled={!oldPassword || !newPassword}
               onClick={ChangePassword}
             >
               {message}

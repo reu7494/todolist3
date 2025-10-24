@@ -125,7 +125,7 @@ app.patch("/api/ChangePassword", verifyToken, (req, res) => {
   const { oldPassword, newPassword, userName } = req.body;
   const query =
     "UPDATE signup SET password = ? WHERE password = ? AND userName = ?";
-  db.execute(query, [oldPassword], [newPassword], [userName], (err, result) => {
+  db.execute(query, [newPassword, oldPassword, userName], (err, result) => {
     if (result.length > 0) {
       res.send(true);
     } else {
@@ -289,6 +289,10 @@ app.patch("/api/view/:id", (req, res) => {
 
 // 콜백 패턴 (db.execute(query, params, callback)) → async 불필요
 // Promise 패턴 (await db.execute(query, params)) → async 필요
+// res.json => 1.객체는 json 문자열로 변환 2.Content-Type 헤더가 세팅되지 않았을 경우 res 객체에 Content-Type로 세팅 3.res.send(body) 실행
+// ㄴ> res.json(object) - res.send(string)
+// res.send => 1.body 타입 체크 2.객체일 경우 res.json 호출 3.문자열 변환 후 res.send 호출
+// ㄴ> res.send(object) - res.json(object) - res.send(string)
 
 app.listen(PORT, () => {
   console.log(`서버 작동:http://localhost:${PORT}/`);
