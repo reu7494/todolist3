@@ -12,7 +12,6 @@ import {
   Divider,
 } from "@mui/material";
 import { Delete, ArrowBack, CheckCircle } from "@mui/icons-material";
-import SaveAsIcon from "@mui/icons-material/SaveAs";
 
 export function SignOut({ user, setUser }) {
   const [userName, setuserName] = useState("");
