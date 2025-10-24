@@ -18,8 +18,9 @@ import SaveAsIcon from "@mui/icons-material/SaveAs";
 export function Profile({ user, setUser }) {
   const [avatar, setAvatar] = useState("");
   const [value, setValue] = React.useState("1");
-  const [password, setPassword] = useState("");
-  const [changePW, setChangePW] = useState("");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [message, setMessage] = useState("정보 확인");
 
   const userProfile = user.userName;
 
@@ -37,7 +38,24 @@ export function Profile({ user, setUser }) {
   };
 
   async function ChangePassword() {
-    await axios.post(`http://localhost:4000/api/ChangePassword`);
+    try {
+      const response = await axios.patch(
+        "http://localhost:4000/api/ChangePassword",
+        {
+          userName: userProfile,
+          oldPassword: oldPassword,
+          newPassword: newPassword,
+        }
+      );
+      if (response.data) {
+        setMessage("성공");
+      } else {
+        setMessage("실패");
+      }
+    } catch (error) {
+      console.error("에러 응답:", error.response?.data);
+      setMessage("서버 연결 실패");
+    }
   }
 
   return (
@@ -98,8 +116,8 @@ export function Profile({ user, setUser }) {
               label="비밀번호"
               type="password"
               style={{ padding: "8px", width: "200px", borderRadius: "10px" }}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={oldPassword}
+              onChange={(e) => setOldPassword(e.target.value)}
               placeholder="기존 비밀번호를 입력하세요"
             />
 
@@ -107,12 +125,16 @@ export function Profile({ user, setUser }) {
               label="비밀번호"
               type="password"
               style={{ padding: "8px", width: "200px", borderRadius: "10px" }}
-              value={changePW}
-              onChange={(e) => setChangePW(e.target.value)}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               placeholder="변경할 비밀번호를 입력하세요"
             />
-            <Button variant="outlined" startIcon={<SaveAsIcon />}>
-              정보 확인
+            <Button
+              variant="outlined"
+              startIcon={<SaveAsIcon />}
+              onClick={ChangePassword}
+            >
+              {message}
             </Button>
           </Box>
         </TabPanel>

@@ -59,13 +59,11 @@ export function SignOut({ user, setUser }) {
     try {
       const response = await axios.post(
         "http://localhost:4000/api/SignOut/check",
-        { userName, password }
+        { userName: userName, password: password }
       );
 
       if (response.data) {
-        setAlertMessage(
-          "회원정보가 일치합니다. 회원탈퇴 버튼이 활성화되었습니다."
-        );
+        setAlertMessage("회원정보가 일치합니다.");
         setAlertType("success");
         setShowAlert(true);
         enableButton(true);

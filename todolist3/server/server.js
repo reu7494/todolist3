@@ -119,10 +119,25 @@ app.post("/api/Login/post", (req, res) => {
   });
 });
 
+//비밀번호 변경
+
+app.patch("/api/ChangePassword", verifyToken, (req, res) => {
+  const { oldPassword, newPassword, userName } = req.body;
+  const query =
+    "UPDATE signup SET password = ? WHERE password = ? AND userName = ?";
+  db.execute(query, [oldPassword], [newPassword], [userName], (err, result) => {
+    if (result.length > 0) {
+      res.send(true);
+    } else {
+      res.send(false);
+    }
+  });
+});
+
 //유저명 중복체크
 app.post("/api/SignUp/checkUserName", (req, res) => {
   const checkName = req.body.userName;
-  const query = "select userName from signup where userName=?";
+  const query = "SELECT userName FROM signup WHERE userName=?";
   db.execute(query, [checkName], (err, rows, result) => {
     if (rows.length > 0) {
       res.send(true);
@@ -134,8 +149,8 @@ app.post("/api/SignUp/checkUserName", (req, res) => {
 
 //회원탈퇴 시 유저 가입정보 확인
 app.post("/api/SignOut/check", verifyToken, (req, res) => {
+  const { userName } = req.user.userName;
   const { password } = req.body;
-  const userName = req.user.userName;
 
   if (!userName || !password) {
     return res.status(400).send("유저명과 비밀번호가 필요합니다.");
@@ -143,7 +158,7 @@ app.post("/api/SignOut/check", verifyToken, (req, res) => {
 
   try {
     const query = "SELECT * FROM signup WHERE userName = ? AND password = ?";
-    db.query(query, [userName, password], (err, rows) => {
+    db.execute(query, [userName, password], (err, rows) => {
       if (rows.length > 0) {
         res.send(true);
       } else {

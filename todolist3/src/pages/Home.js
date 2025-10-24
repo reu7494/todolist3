@@ -15,8 +15,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import dayjs from "dayjs";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { ResponsiveAppBar } from ".//ResponsiveAppBar";
-import { Profile } from "./Profile";
 
 // MUI 테이블 스타일링
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -29,7 +27,9 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-//Profile.js:20 Uncaught TypeError: Cannot read properties of undefined (reading 'userName')
+//1. 회원탈퇴 안됨
+//2. 비밀번호 변경 시 {success: false, message: '토큰이 제공되지 않았습니다'} 라고함
+//3. 회원탈퇴 시 사용자가 작성한 데이터 리스트 전부 같이 지우기
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
