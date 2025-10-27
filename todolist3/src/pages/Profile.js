@@ -13,8 +13,6 @@ import { Box, Button, Stack } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import api from "../api/axios";
 
-//프로필 만들기
-
 export function Profile({ user, setUser }) {
   const [avatar, setAvatar] = useState("");
   const [value, setValue] = React.useState("1");
@@ -22,7 +20,7 @@ export function Profile({ user, setUser }) {
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("정보 확인");
 
-  const userProfile = user.userName;
+  const userProfile = user.id;
 
   useEffect(() => {
     const avatarDataUri = createAvatar(identicon, {

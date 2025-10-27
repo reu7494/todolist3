@@ -22,7 +22,7 @@ export function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [messageType, setMessageType] = useState("info"); // success, error, info
+  const [messageType, setMessageType] = useState("info");
 
   const navigate = useNavigate();
 

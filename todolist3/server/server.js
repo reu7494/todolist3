@@ -69,8 +69,8 @@ app.post("/api/SignUp/post", (req, res) => {
 });
 
 //회원탈퇴
-app.delete("/api/SignOut/:userName", verifyToken, (req, res) => {
-  const { userName } = req.user.username;
+app.delete("/SignOut/:userName", verifyToken, (req, res) => {
+  const { userName } = req.user;
   db.execute("DELETE FROM signup WHERE userName=?", [userName], (err) => {
     if (err) return res.status(500).json({ success: false });
     res.json({ success: true, message: "회원탈퇴가 완료되었습니다" });
@@ -124,8 +124,8 @@ app.patch("/api/ChangePassword", verifyToken, (req, res) => {
   const { oldPassword, newPassword, userName } = req.body;
   const query =
     "UPDATE signup SET password = ? WHERE password = ? AND userName = ?";
-  db.execute(query, [newPassword, oldPassword, userName], (err, result) => {
-    if (result.length > 0) {
+  db.execute(query, [newPassword, oldPassword, userName], (err, results) => {
+    if (results.length > 0) {
       res.send(true);
     } else {
       res.send(false);
@@ -148,11 +148,14 @@ app.post("/api/SignUp/checkUserName", (req, res) => {
 
 //회원탈퇴 시 유저 가입정보 확인
 app.post("/api/SignOut/check", verifyToken, (req, res) => {
-  const { userName } = req.user.userName;
+  const { userName } = req.user;
   const { password } = req.body;
 
   if (!userName || !password) {
-    return res.status(400).send("유저명과 비밀번호가 필요합니다.");
+    return res.status(400).json({
+      success: false,
+      message: "유저명과 비밀번호가 필요합니다.",
+    });
   }
 
   try {

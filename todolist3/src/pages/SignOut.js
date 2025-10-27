@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +11,7 @@ import {
   Divider,
 } from "@mui/material";
 import { Delete, ArrowBack, CheckCircle } from "@mui/icons-material";
+import api from "../api/axios";
 
 export function SignOut({ user, setUser }) {
   const [userName, setuserName] = useState("");
@@ -29,7 +29,7 @@ export function SignOut({ user, setUser }) {
 
   async function handleDelete() {
     try {
-      await axios.delete(`http://localhost:4000/api/SignOut/${userName}`);
+      await api.delete(`/SignOut/${userName}`);
 
       setUser({ userName: "", isLoggedIn: false });
 
@@ -57,10 +57,9 @@ export function SignOut({ user, setUser }) {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/SignOut/check",
-        { userName: userName, password: password }
-      );
+      const response = await api.post("/SignOut/check", {
+        password: password,
+      });
 
       if (response.data) {
         setAlertMessage("회원정보가 일치합니다.");
