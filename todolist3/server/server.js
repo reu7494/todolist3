@@ -69,10 +69,11 @@ app.post("/api/SignUp/post", (req, res) => {
 });
 
 //회원탈퇴
-app.delete("/SignOut/:userName", verifyToken, (req, res) => {
-  const { userName } = req.user;
+app.delete("/api/SignOut/:userName", verifyToken, (req, res) => {
+  const { userName } = req.params;
   db.execute("DELETE FROM signup WHERE userName=?", [userName], (err) => {
-    if (err) return res.status(500).json({ success: false });
+    if (err)
+      return res.status(500).json({ success: false, message: "회원탈퇴 실패" });
     res.json({ success: true, message: "회원탈퇴가 완료되었습니다" });
   });
 });

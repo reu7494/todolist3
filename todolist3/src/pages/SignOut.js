@@ -29,7 +29,7 @@ export function SignOut({ user, setUser }) {
 
   async function handleDelete() {
     try {
-      await api.delete(`/SignOut/${userName}`);
+      await api.delete(`/SignOut/${userName}`, {});
 
       setUser({ userName: "", isLoggedIn: false });
 
