@@ -1,5 +1,4 @@
 import * as React from "react";
-import axios from "axios";
 import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
@@ -12,6 +11,7 @@ import { SignOut } from "./SignOut";
 import Sheet from "@mui/joy/Sheet";
 import { Box, Button, Stack } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
+import api from "../api/axios";
 
 //프로필 만들기
 
@@ -40,7 +40,7 @@ export function Profile({ user, setUser }) {
   async function ChangePassword() {
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.patch(
+      const response = await api.patch(
         "http://localhost:4000/api/ChangePassword",
         {
           userName: userProfile,
@@ -51,7 +51,7 @@ export function Profile({ user, setUser }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      if (response.data) {
+      if (response.data.success) {
         setMessage("성공");
         setOldPassword("");
         setNewPassword("");

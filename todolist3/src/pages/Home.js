@@ -28,9 +28,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 }));
 
 //1. 회원탈퇴 안됨
-//2. 비밀번호 변경 시 {success: false, message: '토큰이 제공되지 않았습니다'} 라고함
-//3. 회원탈퇴 시 사용자가 작성한 데이터 리스트 전부 같이 지우기
-//4. 자동 로그아웃이 안됨
+//2. 비밀번호 변경 시 데이터는 변경되지만 메시지의 변화가 없음
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {

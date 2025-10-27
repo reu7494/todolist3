@@ -29,7 +29,6 @@ api.interceptors.response.use(
       // 토큰 만료 또는 유효하지 않음
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
-      alert("로그인이 만료되었습니다. 다시 로그인해주세요.");
       window.location.href = "/login";
     }
     return Promise.reject(error);

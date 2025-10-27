@@ -12,7 +12,6 @@ import { ResponsiveAppBar } from "./pages/ResponsiveAppBar";
 
 export default function App() {
   const [lists, setLists] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState({
     id: 0,
     userName: "",
@@ -28,13 +27,16 @@ export default function App() {
         userName: userName,
         isLoggedIn: true,
       });
+    } else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
+      setUser({
+        userName: "",
+        isLoggedIn: false,
+      });
     }
-    setLoading(false);
   }, []);
-  // 로딩 중 표시
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
+
   return (
     <BrowserRouter>
       <ResponsiveAppBar user={user} setUser={setUser} />

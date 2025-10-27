@@ -120,7 +120,6 @@ app.post("/api/Login/post", (req, res) => {
 });
 
 //비밀번호 변경
-
 app.patch("/api/ChangePassword", verifyToken, (req, res) => {
   const { oldPassword, newPassword, userName } = req.body;
   const query =
@@ -268,6 +267,7 @@ app.get("/api/get/:id", (req, res) => {
   });
 });
 
+//조회수 증가
 app.patch("/api/view/:id", (req, res) => {
   const { id } = req.params;
 

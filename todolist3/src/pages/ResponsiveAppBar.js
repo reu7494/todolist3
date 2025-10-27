@@ -56,7 +56,7 @@ export function ResponsiveAppBar({ user, setUser }) {
     navigate("/login");
   }
 
-  function logout() {
+  async function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("userName");
     setUser({
