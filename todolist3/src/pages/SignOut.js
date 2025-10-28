@@ -14,7 +14,7 @@ import { Delete, ArrowBack, CheckCircle } from "@mui/icons-material";
 import api from "../api/axios";
 
 export function SignOut({ user, setUser }) {
-  const [userName, setuserName] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [text, enableButton] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -29,9 +29,11 @@ export function SignOut({ user, setUser }) {
 
   async function handleDelete() {
     try {
-      await api.delete(`/SignOut/${userName}`, {});
+      await api.delete(`/SignOut/${name}`);
 
-      setUser({ userName: "", isLoggedIn: false });
+      setUser({ userName: null, isLoggedIn: false });
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
 
       setAlertMessage("회원탈퇴가 완료되었습니다.");
       setAlertType("success");
@@ -49,7 +51,7 @@ export function SignOut({ user, setUser }) {
   }
 
   async function checkButton() {
-    if (!userName.trim() || !password.trim()) {
+    if (!name.trim() || !password.trim()) {
       setAlertMessage("모든 필드를 입력해주세요");
       setAlertType("warning");
       setShowAlert(true);
@@ -124,8 +126,8 @@ export function SignOut({ user, setUser }) {
             label="유저명"
             variant="outlined"
             fullWidth
-            value={userName}
-            onChange={(e) => setuserName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             placeholder="유저명을 입력하세요"
           />
 

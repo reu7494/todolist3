@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import api from "../api/axios";
 import {
   Box,
   Button,
@@ -9,6 +10,7 @@ import {
   Divider,
   Stack,
   Chip,
+  TextField,
 } from "@mui/material";
 import {
   ArrowBack,
@@ -17,8 +19,10 @@ import {
   CalendarToday,
 } from "@mui/icons-material";
 
-export function DetailList({ lists, setLists }) {
+export function DetailList() {
   const [data, setData] = useState("");
+  const [changeList, setChangeList] = useState([]);
+  const [changeButton, setChangeButton] = useState(false);
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -41,6 +45,15 @@ export function DetailList({ lists, setLists }) {
 
     getDetailLists();
   }, [id]);
+
+  async function changeNewListButotn() {
+    try {
+      await api.post("http://localhost:4000/api/post", {});
+      navigate("/");
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <Box sx={{ maxWidth: 900, margin: "0 auto", padding: 3 }}>
@@ -76,25 +89,46 @@ export function DetailList({ lists, setLists }) {
 
           {/* 내용 */}
           <Box sx={{ mt: 3, mb: 4 }}>
-            <Typography
-              variant="body1"
-              sx={{ whiteSpace: "pre-wrap", lineHeight: 1.8 }}
-            >
-              {data.content}
-            </Typography>
+            {changeList ? (
+              <Typography
+                variant="body1"
+                sx={{ whiteSpace: "pre-wrap", lineHeight: 1.8 }}
+              >
+                {data.content}
+              </Typography>
+            ) : (
+              <TextField
+                variant="body1"
+                fullWidth
+                multiline
+                rows={6}
+                value={data.content}
+                onChange={(e) => setChangeList(e.target.value)}
+              />
+            )}
           </Box>
 
           <Divider sx={{ my: 3 }} />
 
           {/* 버튼 */}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <Button
-              variant="contained"
-              startIcon={<ArrowBack />}
-              onClick={goBack}
-            >
-              목록으로 돌아가기
-            </Button>
+            {changeButton ? (
+              <Button
+                variant="contained"
+                startIcon={<ArrowBack />}
+                onClick={goBack}
+              >
+                목록으로 돌아가기
+              </Button>
+            ) : (
+              <Button
+                variant="contained"
+                startIcon={<ArrowBack />}
+                onClick={changeNewListButotn}
+              >
+                수정
+              </Button>
+            )}
           </Box>
         </Paper>
       ) : (

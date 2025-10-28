@@ -18,9 +18,9 @@ export function Profile({ user, setUser }) {
   const [value, setValue] = React.useState("1");
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [message, setMessage] = useState("정보 확인");
+  const [message, setMessage] = useState("확인");
 
-  const userProfile = user.id;
+  const userProfile = user.userName;
 
   useEffect(() => {
     const avatarDataUri = createAvatar(identicon, {
@@ -49,12 +49,12 @@ export function Profile({ user, setUser }) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      if (response.data.success) {
-        setMessage("성공");
+      if (response.data) {
+        setMessage("실패");
         setOldPassword("");
         setNewPassword("");
       } else {
-        setMessage("실패");
+        setMessage("성공");
       }
     } catch (error) {
       console.error("에러 응답:", error.response?.data);
@@ -144,7 +144,7 @@ export function Profile({ user, setUser }) {
           </Box>
         </TabPanel>
         <TabPanel value="2">
-          <SignOut />
+          <SignOut user={user} setUser={setUser} />
         </TabPanel>
       </TabContext>
     </Box>

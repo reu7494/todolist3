@@ -23,7 +23,7 @@ export function ResponsiveAppBar({ user, setUser }) {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [avatar, setAvatar] = useState("");
 
-  const userProfile = user.id;
+  const userProfile = user.userName;
 
   useEffect(() => {
     const avatarDataUri = createAvatar(identicon, {
