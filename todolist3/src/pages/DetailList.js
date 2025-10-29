@@ -49,7 +49,7 @@ export function DetailList() {
     }
 
     getDetailLists();
-  }, [id]);
+  }, [id, BASE_URL]);
 
   async function changeNewListButotn() {
     if (changeBoolean === true) {
