@@ -19,6 +19,7 @@ const pages = [""];
 const settings = ["사용자 페이지", "로그아웃"];
 
 export function ResponsiveAppBar({ user, setUser }) {
+  // eslint-disable-next-line no-unused-vars
   const [_anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const [avatar, setAvatar] = useState("");
