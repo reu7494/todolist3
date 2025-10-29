@@ -18,11 +18,13 @@ import {
   Person,
   CalendarToday,
 } from "@mui/icons-material";
+import SaveAsIcon from "@mui/icons-material/SaveAs";
 
 export function DetailList() {
   const [data, setData] = useState("");
   const [changeList, setChangeList] = useState([]);
-  const [changeButton, setChangeButton] = useState(false);
+  const [changeValue, setChangeValue] = useState("수정");
+  const [changeBoolean, setChangeBoolean] = useState(true);
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -36,6 +38,7 @@ export function DetailList() {
       try {
         const response = await axios.get(`http://localhost:4000/api/get/${id}`);
         setData(response.data);
+        setChangeList(response.data.content);
 
         await axios.patch(`http://localhost:4000/api/view/${id}`);
       } catch (error) {
@@ -47,11 +50,30 @@ export function DetailList() {
   }, [id]);
 
   async function changeNewListButotn() {
-    try {
-      await api.post("http://localhost:4000/api/post", {});
-      navigate("/");
-    } catch (error) {
-      console.error(error);
+    if (changeBoolean === true) {
+      setChangeBoolean(false);
+      setChangeValue("저장");
+    } else {
+      try {
+        const token = localStorage.getItem("token");
+        await api.patch(
+          `/DetailList/changeList/${id}`,
+          { newContent: changeList },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+
+        setData((prev) => ({
+          ...prev,
+          content: changeList,
+        }));
+
+        setChangeBoolean(true);
+        setChangeValue("수정");
+      } catch (error) {
+        console.error(error);
+      }
     }
   }
 
@@ -83,13 +105,20 @@ export function DetailList() {
               label={`조회수: ${data.views}`}
               variant="outlined"
             />
+            <Button
+              variant="contained"
+              startIcon={<SaveAsIcon />}
+              onClick={changeNewListButotn}
+            >
+              {changeValue}
+            </Button>
           </Stack>
 
           <Divider sx={{ my: 2 }} />
 
           {/* 내용 */}
           <Box sx={{ mt: 3, mb: 4 }}>
-            {changeList ? (
+            {changeBoolean ? (
               <Typography
                 variant="body1"
                 sx={{ whiteSpace: "pre-wrap", lineHeight: 1.8 }}
@@ -98,11 +127,11 @@ export function DetailList() {
               </Typography>
             ) : (
               <TextField
-                variant="body1"
+                variant="outlined"
                 fullWidth
                 multiline
                 rows={6}
-                value={data.content}
+                value={changeList}
                 onChange={(e) => setChangeList(e.target.value)}
               />
             )}
@@ -112,23 +141,13 @@ export function DetailList() {
 
           {/* 버튼 */}
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            {changeButton ? (
-              <Button
-                variant="contained"
-                startIcon={<ArrowBack />}
-                onClick={goBack}
-              >
-                목록으로 돌아가기
-              </Button>
-            ) : (
-              <Button
-                variant="contained"
-                startIcon={<ArrowBack />}
-                onClick={changeNewListButotn}
-              >
-                수정
-              </Button>
-            )}
+            <Button
+              variant="contained"
+              startIcon={<ArrowBack />}
+              onClick={goBack}
+            >
+              목록으로 돌아가기
+            </Button>
           </Box>
         </Paper>
       ) : (

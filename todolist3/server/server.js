@@ -189,6 +189,22 @@ app.post("/api/post", verifyToken, (req, res) => {
   });
 });
 
+//리스트 항목 업데이트
+app.patch("/api/DetailList/changeList/:id", verifyToken, (req, res) => {
+  const { newContent } = req.body;
+  const { id } = req.params;
+  const usename = req.user.userName; // 토큰에서 사용자명 가져오기
+  const query = "UPDATE list SET content=? WHERE usename=? AND id=?;";
+  db.execute(query, [newContent, usename, id], (err, result) => {
+    if (err) {
+      console.error("데이터 업데이트 오류:", err);
+      return res.status(500).send("데이터 업데이트 중 오류 발생");
+    } else {
+      res.send({ success: true, message: "게시글이 변경되었습니다" });
+    }
+  });
+});
+
 //리스트 가져옴
 app.get("/api/get", (req, res) => {
   db.execute("SELECT * FROM list", (err, results) => {

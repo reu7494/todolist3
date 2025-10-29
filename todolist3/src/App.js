@@ -27,6 +27,13 @@ export default function App() {
         userName: userName,
         isLoggedIn: true,
       });
+    } else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
+      setUser({
+        userName: "",
+        isLoggedIn: false,
+      });
     }
   }, []);
 
