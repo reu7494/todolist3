@@ -2,10 +2,11 @@ const mysql = require("mysql2");
 
 // 데이터베이스 연결 설정
 const db = mysql.createConnection({
-  host: "localhost", // MySQL 서버 주소
-  user: "limbo", // MySQL 사용자
-  password: "Gun159qwe**", // MySQL 비밀번호
-  database: "todolist_table", // 데이터베이스 이름
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT || 3306,
 });
 
 db.connect((err) => {
