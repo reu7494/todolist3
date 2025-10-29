@@ -51,7 +51,7 @@ export function Home({ user, setUser, lists, setLists }) {
     }
 
     getData();
-  }, [setLists]);
+  }, [setLists, BASE_URL]);
 
   function goToLists() {
     navigate("/lists");
