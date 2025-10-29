@@ -10,7 +10,7 @@ const SECRET_KEY = process.env.JWT_SECRET;
 
 app.use(
   cors({
-    origin: ["https://todolist3-ten.vercel.app"],
+    origin: ["https://todolist3-ten.vercel.app/"],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
