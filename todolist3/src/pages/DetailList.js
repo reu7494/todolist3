@@ -27,6 +27,8 @@ export function DetailList() {
   const [changeBoolean, setChangeBoolean] = useState(true);
   const { id } = useParams();
 
+  const BASE_URL = process.env.REACT_APP_API_URL;
+
   const navigate = useNavigate();
 
   function goBack() {
@@ -36,11 +38,11 @@ export function DetailList() {
   useEffect(() => {
     async function getDetailLists() {
       try {
-        const response = await axios.get(`http://localhost:4000/api/get/${id}`);
+        const response = await axios.get(`${BASE_URL}/api/get/${id}`);
         setData(response.data);
         setChangeList(response.data.content);
 
-        await axios.patch(`http://localhost:4000/api/view/${id}`);
+        await axios.patch(`${BASE_URL}/api/view/${id}`);
       } catch (error) {
         console.error("게시글 불러오기 실패:", error);
       }

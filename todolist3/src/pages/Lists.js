@@ -7,6 +7,7 @@ import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 export function Lists({ user, setUser, lists, setLists }) {
   const [title, setTitle] = useState("");
   const [contents, setContents] = useState("");
+  const BASE_URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
 
@@ -18,7 +19,7 @@ export function Lists({ user, setUser, lists, setLists }) {
     if (title.trim() === "" || contents.trim() === "") return; // 공백 입력 안됨
 
     try {
-      const response = await api.post("http://localhost:4000/api/post", {
+      const response = await api.post(`${BASE_URL}/api/post`, {
         title: title,
         usename: user.userName,
         content: contents,

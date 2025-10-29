@@ -23,6 +23,7 @@ export function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [messageType, setMessageType] = useState("info");
+  const BASE_URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
 
@@ -65,7 +66,7 @@ export function SignUp() {
     }
 
     try {
-      await axios.post("http://localhost:4000/api/SignUp/post", {
+      await axios.post(`${BASE_URL}/api/SignUp/post`, {
         userName: userName,
         password: password,
       });
@@ -94,7 +95,7 @@ export function SignUp() {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/SignUp/checkUserName",
+        `${BASE_URL}/api/SignUp/checkUserName`,
         { userName }
       );
       if (response.data) {

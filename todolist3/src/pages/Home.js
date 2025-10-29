@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import api from "../api/axios";
 import Stack from "@mui/material/Stack";
@@ -27,9 +27,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-//1. 회원탈퇴 안됨
-//2. 비밀번호 변경 시 데이터는 변경되지만 메시지의 변화가 없음
-
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
@@ -41,11 +38,12 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 export function Home({ user, setUser, lists, setLists }) {
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     async function getData() {
       try {
-        const response = await axios.get("http://localhost:4000/api/get");
+        const response = await axios.get(`${BASE_URL}/api/get`);
         setLists(response.data);
       } catch (error) {
         console.error(error);
@@ -70,7 +68,7 @@ export function Home({ user, setUser, lists, setLists }) {
 
   async function ListDelete(listId) {
     try {
-      await api.delete(`http://localhost:4000/api/delete/${listId}`);
+      await api.delete(`${BASE_URL}/api/delete/${listId}`);
       let todolist = lists.filter((list) => list.id !== listId);
       setLists(todolist);
     } catch (error) {

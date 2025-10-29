@@ -3,13 +3,12 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { identicon } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
 import { SignOut } from "./SignOut";
 import Sheet from "@mui/joy/Sheet";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import SaveAsIcon from "@mui/icons-material/SaveAs";
 import api from "../api/axios";
 
@@ -19,6 +18,7 @@ export function Profile({ user, setUser }) {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("확인");
+  const BASE_URL = process.env.REACT_APP_API_URL;
 
   const userProfile = user.userName;
 
@@ -39,7 +39,7 @@ export function Profile({ user, setUser }) {
     try {
       const token = localStorage.getItem("token");
       const response = await api.patch(
-        "http://localhost:4000/api/ChangePassword",
+        `${BASE_URL}/api/ChangePassword`,
         {
           userName: userProfile,
           oldPassword: oldPassword,

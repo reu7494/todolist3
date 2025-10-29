@@ -61,6 +61,7 @@ export function Login({ user, setUser }) {
     message: "",
     severity: "info",
   });
+  const BASE_URL = process.env.REACT_APP_API_URL;
 
   const navigate = useNavigate();
 
@@ -104,13 +105,10 @@ export function Login({ user, setUser }) {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/Login/post",
-        {
-          userName,
-          password,
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/api/Login/post`, {
+        userName,
+        password,
+      });
 
       if (response.data.success) {
         localStorage.setItem("token", response.data.token);
