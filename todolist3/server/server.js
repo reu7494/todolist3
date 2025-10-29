@@ -8,7 +8,12 @@ const db = require("./db");
 const PORT = process.env.PORT || 4000;
 const SECRET_KEY = process.env.JWT_SECRET;
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://todolist3-ten.vercel.app/",
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 function verifyToken(req, res, next) {
