@@ -2,7 +2,7 @@ import axios from "axios";
 
 // axios 인스턴스 생성 (함수가 아닌 변수로)
 const api = axios.create({
-  baseURL: "process.env.REACT_APP_API_URL,",
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 // 모든 요청에 자동으로 토큰 추가
