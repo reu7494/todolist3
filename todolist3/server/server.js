@@ -200,7 +200,7 @@ app.patch("/api/DetailList/changeList/:id", verifyToken, (req, res) => {
   const { newContent } = req.body;
   const { id } = req.params;
   const usename = req.user.userName; // 토큰에서 사용자명 가져오기
-  const query = "UPDATE list SET content=? WHERE usename=? AND id=?;";
+  const query = "UPDATE list SET content=? WHERE username=? AND id=?;";
   db.execute(query, [newContent, usename, id], (err, result) => {
     if (err) {
       console.error("데이터 업데이트 오류:", err);
@@ -233,7 +233,7 @@ app.delete("/api/delete/:id", verifyToken, (req, res) => {
   const username = req.user.userName;
 
   //게시글 작성자 확인
-  db.execute("SELECT usename FROM list WHERE id = ?", [id], (err, results) => {
+  db.execute("SELECT username FROM list WHERE id = ?", [id], (err, results) => {
     if (err) {
       return res.status(500).json({
         success: false,
@@ -249,7 +249,7 @@ app.delete("/api/delete/:id", verifyToken, (req, res) => {
     }
 
     // 작성자와 로그인 사용자가 일치하는지 확인
-    if (results[0].usename !== username) {
+    if (results[0].username !== username) {
       return res.status(403).json({
         success: false,
         message: "삭제 권한이 없습니다",
