@@ -120,13 +120,13 @@ export function Home({ user, setUser, lists, setLists }) {
                       <StyledTableCell>
                         <Link to={`/lists/${list.id}`}>{list.title}</Link>
                       </StyledTableCell>
-                      <StyledTableCell>{list.usename}</StyledTableCell>
+                      <StyledTableCell>{list.username}</StyledTableCell>
                       <StyledTableCell>
                         {formatDate(list.created_at)}
                       </StyledTableCell>
                       <StyledTableCell>{list.views || 0}</StyledTableCell>
                       <StyledTableCell>
-                        {user.userName === list.usename ? (
+                        {user.userName === list.username ? (
                           <Button
                             variant="contained"
                             size="small"

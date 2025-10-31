@@ -94,7 +94,7 @@ export function DetailList() {
           <Stack direction="row" spacing={2} sx={{ mb: 3 }} flexWrap="wrap">
             <Chip
               icon={<Person />}
-              label={`작성자: ${data.usename}`}
+              label={`작성자: ${data.username}`}
               variant="outlined"
             />
             <Chip
