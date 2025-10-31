@@ -59,7 +59,7 @@ export function DetailList() {
       try {
         const token = localStorage.getItem("token");
         await api.patch(
-          `/DetailList/changeList/${id}`,
+          `/api/DetailList/changeList/${id}`,
           { newContent: changeList },
           {
             headers: { Authorization: `Bearer ${token}` },
