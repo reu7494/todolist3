@@ -12,7 +12,7 @@ app.use(
   cors({
     origin: "https://todolist3-ten.vercel.app",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   })
 );
 app.use(express.json());
