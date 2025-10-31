@@ -21,7 +21,7 @@ export function Lists({ user, setUser, lists, setLists }) {
     try {
       const response = await api.post(`${BASE_URL}/api/post`, {
         title: title,
-        usename: user.userName,
+        username: user.userName,
         content: contents,
         created_at: dayjs().format("YYYY-MM-DD"),
       });

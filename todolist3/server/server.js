@@ -182,10 +182,10 @@ app.post("/api/SignOut/check", verifyToken, (req, res) => {
 //리스트 항목 저장
 app.post("/api/post", verifyToken, (req, res) => {
   const { title, content, created_at } = req.body;
-  const usename = req.user.userName; // 토큰에서 사용자명 가져오기
+  const username = req.user.userName; // 토큰에서 사용자명 가져오기
   const query =
-    "INSERT INTO list (title, usename, content,created_at) VALUES (?,?,?,?);";
-  db.execute(query, [title, usename, content, created_at], (err, result) => {
+    "INSERT INTO list (title, username, content,created_at) VALUES (?,?,?,?);";
+  db.execute(query, [title, username, content, created_at], (err, result) => {
     if (err) {
       console.error("데이터 삽입 오류:", err);
       return res.status(500).send("데이터 삽입 중 오류 발생");
