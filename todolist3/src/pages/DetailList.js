@@ -38,7 +38,7 @@ export function DetailList() {
   useEffect(() => {
     async function getDetailLists() {
       try {
-        const response = await axios.get(`${BASE_URL}/api/get/${id}`);
+        const response = await api.get(`${BASE_URL}/api/get/${id}`);
         setData(response.data);
         setChangeList(response.data.content);
 
