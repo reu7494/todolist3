@@ -1,3 +1,4 @@
+import cors from "cors";
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const express = require("express");
