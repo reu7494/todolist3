@@ -59,7 +59,7 @@ export function SignOut({ user, setUser }) {
     }
 
     try {
-      const response = await api.post("/SignOut/check", {
+      const response = await api.post("/api/SignOut/check", {
         password: password,
       });
 
