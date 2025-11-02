@@ -29,7 +29,7 @@ export function SignOut({ user, setUser }) {
 
   async function handleDelete() {
     try {
-      await api.delete(`/SignOut/${name}`);
+      await api.delete(`/api/SignOut/${name}`);
 
       setUser({ userName: null, isLoggedIn: false });
       localStorage.removeItem("token");
